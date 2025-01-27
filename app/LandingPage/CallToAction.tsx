@@ -23,7 +23,7 @@ const CallToAction = () => {
             </h2>
             
             <p className="text-white/70 leading-relaxed mb-12">
-              Ready to create something extraordinary? Our team of creative professionals is here to bring your ideas to life. Let's discuss your next project and explore the possibilities together.
+              Ready to create something extraordinary? Our team of creative professionals is here to bring your ideas to life. Let&apos;s discuss your next project and explore the possibilities together.
             </p>
 
             {/* Contact Info */}

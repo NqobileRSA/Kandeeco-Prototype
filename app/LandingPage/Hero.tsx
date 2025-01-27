@@ -61,9 +61,9 @@ const Hero: React.FC = () => {
             {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-10" />
 
-            {/* Animated Hero Image */}
+            {/* Hero Image */}
             <div
-              className={`absolute top-0 right-0 w-[75%] h-full bg-cover bg-center transition-transform duration-[6s] ${
+              className={`absolute top-0 right-0 w-full md:w-[75%] h-full bg-cover bg-center transition-transform duration-[6s] ${
                 index === currentSlide
                   ? "scale-100 skew-x-[-5deg] opacity-90"
                   : "scale-[1.05] skew-x-[-5deg] opacity-50"
@@ -75,16 +75,16 @@ const Hero: React.FC = () => {
             />
 
             {/* Text Content */}
-            <div className="absolute top-1/2 left-32 transform -translate-y-1/2 z-20 max-w-[700px]">
-              <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-6 flex items-center before:content-[''] before:w-10 before:h-[1px] before:bg-[#D4AF37] before:mr-6">
+            <div className="absolute top-1/2 left-6 md:left-32 transform -translate-y-1/2 z-20 max-w-[90%] md:max-w-[700px]">
+              <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-4 md:mb-6 flex items-center before:content-[''] before:w-8 before:h-[1px] before:bg-[#D4AF37] before:mr-4">
                 {slide.label}
               </div>
-              <h1 className="text-white text-6xl font-light leading-tight tracking-[-1px] mb-10">
+              <h1 className="text-white text-3xl md:text-6xl font-light leading-tight tracking-[-1px] mb-6 md:mb-10">
                 {slide.title}
               </h1>
               <a
                 href="#work"
-                className="inline-flex items-center px-14 py-6 border border-[#D4AF37]/30 bg-[#D4AF37]/5 text-white text-sm uppercase tracking-[4px] relative transition-all overflow-hidden group"
+                className="inline-flex items-center px-10 py-4 md:px-14 md:py-6 border border-[#D4AF37]/30 bg-[#D4AF37]/5 text-white text-xs md:text-sm uppercase tracking-[4px] relative transition-all overflow-hidden group"
               >
                 <span className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-[-25deg] group-hover:translate-x-0 transition-transform" />
                 <span className="relative z-10 group-hover:text-black">
@@ -97,51 +97,45 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Controls */}
-      <div className="absolute bottom-12 right-12 z-20 flex items-center gap-12 bg-black/60 p-4 px-8 backdrop-blur">
-  {/* Previous Button */}
-  <button
-    onClick={handlePrev}
-    className="bg-none border-none text-[#D4AF37] cursor-pointer px-2 py-1 opacity-60 transition-opacity duration-300 uppercase text-sm tracking-[3px] hover:opacity-100"
-  >
-    Previous
-  </button>
+      <div className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-20 flex items-center gap-6 md:gap-12 bg-black/60 p-4 px-6 md:px-8 backdrop-blur">
+        <button
+          onClick={handlePrev}
+          className="bg-none border-none text-[#D4AF37] cursor-pointer px-2 py-1 opacity-60 transition-opacity duration-300 uppercase text-xs md:text-sm tracking-[3px] hover:opacity-100"
+        >
+          Previous
+        </button>
+        <span className="text-white text-xs md:text-sm tracking-[3px]">
+          {String(currentSlide + 1).padStart(2, "0")} — {String(slides.length).padStart(2, "0")}
+        </span>
+        <button
+          onClick={handleNext}
+          className="bg-none border-none text-[#D4AF37] cursor-pointer px-2 py-1 opacity-60 transition-opacity duration-300 uppercase text-xs md:text-sm tracking-[3px] hover:opacity-100"
+        >
+          Next
+        </button>
+      </div>
 
-  {/* Slide Counter */}
-  <span className="text-white text-sm tracking-[3px]">
-    {String(currentSlide + 1).padStart(2, "0")} — {String(slides.length).padStart(2, "0")}
-  </span>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNext}
-    className="bg-none border-none text-[#D4AF37] cursor-pointer px-2 py-1 opacity-60 transition-opacity duration-300 uppercase text-sm tracking-[3px] hover:opacity-100"
-  >
-    Next
-  </button>
-</div>
-
-{/* Progress Bar */}
-<div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4AF37]/10">
-  <div
-    className="h-full bg-[#D4AF37] origin-left transition-transform duration-[5000ms]"
-    style={{ transform: `scaleX(${(currentSlide + 1) / slides.length})` }}
-  />
-</div>
-
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4AF37]/10">
+        <div
+          className="h-full bg-[#D4AF37] origin-left transition-transform duration-[5000ms]"
+          style={{ transform: `scaleX(${(currentSlide + 1) / slides.length})` }}
+        />
+      </div>
 
       {/* Bottom Info Section */}
-      <div className="absolute bottom-12 left-32 z-20 grid grid-cols-2 gap-16 bg-black/60 p-8 backdrop-blur">
+      <div className="absolute bottom-6 md:bottom-12 left-6 md:left-32 z-20 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 bg-black/60 p-6 md:p-8 backdrop-blur">
         <div>
-          <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-3 flex items-center before:content-[''] before:w-5 before:h-[1px] before:bg-[#D4AF37] before:mr-4">
+          <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-2 md:mb-3 flex items-center before:content-[''] before:w-5 before:h-[1px] before:bg-[#D4AF37] before:mr-2 md:before:mr-4">
             Featured
           </h3>
-          <p className="text-white text-lg">Luxury Brand Experience</p>
+          <p className="text-white text-base md:text-lg">Luxury Brand Experience</p>
         </div>
         <div>
-          <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-3 flex items-center before:content-[''] before:w-5 before:h-[1px] before:bg-[#D4AF37] before:mr-4">
+          <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-2 md:mb-3 flex items-center before:content-[''] before:w-5 before:h-[1px] before:bg-[#D4AF37] before:mr-2 md:before:mr-4">
             Recognition
           </h3>
-          <p className="text-white text-lg">Grand Prix Cannes Lions 2024</p>
+          <p className="text-white text-base md:text-lg">Grand Prix Cannes Lions 2024</p>
         </div>
       </div>
     </section>

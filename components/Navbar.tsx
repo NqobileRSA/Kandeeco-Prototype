@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Menu, X, ChevronDown, Search, Phone } from 'lucide-react';
+import { X, ChevronDown, Search, Phone } from 'lucide-react';
 
 interface NavItem {
   label: string;
