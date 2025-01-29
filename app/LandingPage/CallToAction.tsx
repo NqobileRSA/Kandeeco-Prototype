@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRight, Mail, Phone } from 'lucide-react';
+import React from "react";
+import { ArrowRight, Mail, Phone } from "lucide-react";
 
 const CallToAction = () => {
   return (
@@ -17,20 +17,25 @@ const CallToAction = () => {
               <span className="w-8 h-px bg-[#D4AF37] mr-4" />
               Let&apos;s Connect
             </div>
-            
+
             <h2 className="text-4xl text-white font-light tracking-wide mb-8">
               Transform Your Vision Into Reality
             </h2>
-            
+
             <p className="text-white/70 leading-relaxed mb-12">
-              Ready to create something extraordinary? Our team of creative professionals is here to bring your ideas to life. Let&apos;s discuss your next project and explore the possibilities together.
+              Ready to create something extraordinary? Our team of creative
+              professionals is here to bring your ideas to life. Let&apos;s
+              discuss your next project and explore the possibilities together.
             </p>
 
             {/* Contact Info */}
             <div className="space-y-6">
               <div className="flex items-center gap-4 text-white/60 hover:text-[#D4AF37] transition-colors group">
                 <Mail className="w-5 h-5" />
-                <a href="mailto:Kandee.c@studio.com" className="text-sm tracking-wide">
+                <a
+                  href="mailto:Kandee.c@studio.com"
+                  className="text-sm tracking-wide"
+                >
                   Kandee.co@studio.com
                 </a>
               </div>
@@ -51,7 +56,7 @@ const CallToAction = () => {
                 <label className="block text-[#D4AF37] text-sm uppercase tracking-[4px] mb-4">
                   Your Name
                 </label>
-                <input 
+                <input
                   type="text"
                   placeholder="Enter your full name"
                   className="w-full bg-black border border-white/20 text-white p-4 focus:border-[#D4AF37] outline-none transition-colors placeholder:text-white/30"
@@ -63,7 +68,7 @@ const CallToAction = () => {
                 <label className="block text-[#D4AF37] text-sm uppercase tracking-[4px] mb-4">
                   Email Address
                 </label>
-                <input 
+                <input
                   type="email"
                   placeholder="Enter your email"
                   className="w-full bg-black border border-white/20 text-white p-4 focus:border-[#D4AF37] outline-none transition-colors placeholder:text-white/30"

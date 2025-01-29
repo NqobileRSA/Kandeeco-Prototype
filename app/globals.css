@@ -1,8 +1,13 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 ::selection {
   @apply bg-white/10 text-white;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
