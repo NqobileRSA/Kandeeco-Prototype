@@ -7,6 +7,7 @@ import CallToAction from "./LandingPage/CallToAction";
 import Footer from "@/components/Footer";
 import LogoScroller from "./LandingPage/LogoScroller";
 import Team from "./LandingPage/Team";
+import Services from "./LandingPage/Services";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <LogoScroller />
+      <Services />
       <AboutUs />
       <FeaturedWork />
       <OurProcess />

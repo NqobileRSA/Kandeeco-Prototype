@@ -1,109 +1,150 @@
-'use client';
+"use client";
+import React, { useEffect, useState } from "react";
 
-import React, { useState, useEffect, useRef, FC } from "react";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+const slides = [
+  {
+    label: "Wedding Photography",
+    title: "Capturing Love Stories With Artistry",
+    image: "/assets/img1.jpg",
+    button: "View Wedding Portfolio",
+  },
+  {
+    label: "Authentic Moments",
+    title: "Your Story, Beautifully Preserved",
+    image: "/assets/img2.jpg",
+    button: "Explore Our Work",
+  },
+  {
+    label: "Professional Excellence",
+    title: "Award-Winning Photography",
+    image: "/assets/img3.jpg",
+    button: "See Our Recognition",
+  },
+  {
+    label: "Timeless Memories",
+    title: "Photography That Tells Your Story",
+    image: "assets/img4.jpg",
+    button: "Start Your Journey",
+  },
+];
 
-const Hero: FC = () => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
-  const [progress, setProgress] = useState<number>(0);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+const Hero: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-      setProgress(progress);
-    }
-  };
+  // const handlePrev = () => {
+  //   setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  // };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      if (videoRef.current) {
-        videoRef.current.style.transform = `scale(${1 + scrollPosition * 0.0005})`;
-      }
-    };
+    const interval = setInterval(() => {
+      handleNext();
+    }, 5000);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden">
-      <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted={isMuted}
-          loop
-          playsInline
-          onTimeUpdate={handleTimeUpdate}
-          className="object-cover w-full h-full transition-transform duration-300"
-        >
-          <source src="/placeholder/reelhd.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
-      </div>
-      <div className="absolute inset-0 flex flex-col justify-between p-12 z-20">
-        <div className="flex justify-between items-center">
-          <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] flex items-center">
-            <span className="w-8 h-[1px] bg-[#D4AF37] mr-4" />
-            Visual Excellence
-          </div>
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500">
-          <h1 className="text-white text-7xl font-light tracking-tight">
-            Create<span className="text-[#D4AF37]">.</span>
-          </h1>
-        </div>
-        <div className="flex justify-between items-end">
-          <a
-            href="#work"
-            className="inline-flex items-center px-8 py-4 border border-[#D4AF37]/30 bg-[#D4AF37]/5 text-white text-sm uppercase tracking-[4px] relative overflow-hidden group hover:border-[#D4AF37] transition-colors duration-300"
+    <section className="relative h-[80vh] overflow-hidden">
+      {/* Slides */}
+      <div className="relative h-full">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${
+              index === currentSlide
+                ? "opacity-100"
+                : "opacity-0 pointer-events-none"
+            }`}
           >
-            <span className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-[-25deg] group-hover:translate-x-0 transition-transform duration-500" />
-            <span className="relative z-10 group-hover:text-black">Explore Our Work</span>
-          </a>
-          <div className="flex items-center gap-6 bg-black/40 backdrop-blur-sm p-4 rounded-sm">
-            <button
-              onClick={togglePlayPause}
-              className="text-[#D4AF37] hover:text-white transition-colors"
-            >
-              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-            </button>
-            <button
-              onClick={toggleMute}
-              className="text-[#D4AF37] hover:text-white transition-colors"
-            >
-              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-            </button>
-            <div className="w-32 h-[2px] bg-white/20">
-              <div 
-                className="h-full bg-[#D4AF37] transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-10" />
+
+            {/* Hero Image */}
+            <div
+              className={`absolute top-0 right-0 w-full md:w-[75%] h-full bg-cover bg-center transition-transform duration-[6s] ${
+                index === currentSlide
+                  ? "scale-100 skew-x-[-5deg] opacity-90"
+                  : "scale-[1.05] skew-x-[-5deg] opacity-50"
+              }`}
+              style={{
+                backgroundImage: `url(${slide.image})`,
+                clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)",
+              }}
+            />
+
+            {/* Text Content */}
+            <div className="absolute top-1/2 left-6 md:left-32 transform -translate-y-1/2 z-20 max-w-[90%] md:max-w-[700px]">
+              <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-4 md:mb-6 flex items-center before:content-[''] before:w-8 before:h-[1px] before:bg-[#D4AF37] before:mr-4">
+                {slide.label}
+              </div>
+              <h1 className="text-white text-3xl md:text-6xl font-light leading-tight tracking-[-1px] mb-6 md:mb-10">
+                {slide.title}
+              </h1>
+              <a
+                href="#work"
+                className="inline-flex items-center px-10 py-4 md:px-14 md:py-6 border border-[#D4AF37]/30 bg-[#D4AF37]/5 text-white text-xs md:text-sm uppercase tracking-[4px] relative transition-all overflow-hidden group"
+              >
+                <span className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-[-25deg] group-hover:translate-x-0 transition-transform" />
+                <span className="relative z-10 group-hover:text-black">
+                  {slide.button}
+                </span>
+              </a>
             </div>
           </div>
-        </div>
+        ))}
       </div>
+      {/* 
+      {/* Controls */}
+      {/* <div className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-20 flex items-center gap-6 md:gap-12 bg-black/60 p-4 px-6 md:px-8 backdrop-blur">
+        <button
+          onClick={handlePrev}
+          className="bg-none border-none text-[#D4AF37] cursor-pointer px-2 py-1 opacity-60 transition-opacity duration-300 uppercase text-xs md:text-sm tracking-[3px] hover:opacity-100"
+        >
+          Previous
+        </button>
+        <span className="text-white text-xs md:text-sm tracking-[3px]">
+          {String(currentSlide + 1).padStart(2, "0")} —{" "}
+          {String(slides.length).padStart(2, "0")}
+        </span>
+        <button
+          onClick={handleNext}
+          className="bg-none border-none text-[#D4AF37] cursor-pointer px-2 py-1 opacity-60 transition-opacity duration-300 uppercase text-xs md:text-sm tracking-[3px] hover:opacity-100"
+        >
+          Next
+        </button>
+      </div> */}
+
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4AF37]/10">
+        <div
+          className="h-full bg-[#D4AF37] origin-left transition-transform duration-[5000ms]"
+          style={{ transform: `scaleX(${(currentSlide + 1) / slides.length})` }}
+        />
+      </div>
+
+      {/* Bottom Info Section */}
+      {/* <div className="absolute bottom-6 md:bottom-12 left-6 md:left-32 z-20 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 bg-black/60 p-6 md:p-8 backdrop-blur">
+        <div>
+          <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-2 md:mb-3 flex items-center before:content-[''] before:w-5 before:h-[1px] before:bg-[#D4AF37] before:mr-2 md:before:mr-4">
+            Featured
+          </h3>
+          <p className="text-white text-base md:text-lg">
+            Luxury Brand Experience
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-2 md:mb-3 flex items-center before:content-[''] before:w-5 before:h-[1px] before:bg-[#D4AF37] before:mr-2 md:before:mr-4">
+            Recognition
+          </h3>
+          <p className="text-white text-base md:text-lg">
+            Grand Prix Cannes Lions 2024
+          </p>
+        </div>
+      </div>  */}
     </section>
   );
 };

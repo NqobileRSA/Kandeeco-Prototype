@@ -139,7 +139,7 @@ const Team: React.FC = () => {
 
   const team: TeamMember[] = [
     {
-      name: "Guy in black",
+      name: "Person 1",
       role: "Creative Director",
       image: "/assets/team3.jpg",
       shortBio: "Award-winning creative director with 15+ years of experience",
@@ -156,7 +156,7 @@ const Team: React.FC = () => {
       },
     },
     {
-      name: "Some black guy",
+      name: "Person 2",
       role: "Creative Director",
       image: "/assets/team2.jpg",
       shortBio: "Award-winning creative director with 15+ years of experience",
@@ -173,7 +173,7 @@ const Team: React.FC = () => {
       },
     },
     {
-      name: "Sarah Chen",
+      name: "Person 3",
       role: "Creative Director",
       image: "/assets/team1.jpg",
       shortBio: "Award-winning creative director with 15+ years of experience",

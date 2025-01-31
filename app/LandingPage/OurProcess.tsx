@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useRef } from "react";
 import {
   PenTool,
@@ -22,14 +21,14 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
 } from "@/components/ui/carousel";
 
 const OurProcess = () => {
-  const [selectedStep, setSelectedStep] = useState<
-    null | (typeof steps)[number]
-  >(null);
-  const [hoveredStep, setHoveredStep] = useState<null | number>(null);
-  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({});
+  const [selectedStep, setSelectedStep] = useState(null);
+  const [hoveredStep, setHoveredStep] = useState(null);
+  const videoRefs = useRef({});
 
   const steps = [
     {
@@ -109,7 +108,7 @@ const OurProcess = () => {
     },
   ];
 
-  const handleMouseEnter = (index: number) => {
+  const handleMouseEnter = (index) => {
     setHoveredStep(index);
     const videoElement = videoRefs.current[index];
 
@@ -120,7 +119,7 @@ const OurProcess = () => {
     }
   };
 
-  const handleMouseLeave = (index: number) => {
+  const handleMouseLeave = (index) => {
     setHoveredStep(null);
     const videoElement = videoRefs.current[index];
 
@@ -208,58 +207,85 @@ const OurProcess = () => {
           </div>
         </div>
 
-        <Carousel className="relative">
-          <CarouselContent>
-            {steps.map((step, index) => (
-              <CarouselItem
-                key={step.phase}
-                className="group relative h-[500px] w-[400px] cursor-pointer"
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-                onClick={() => setSelectedStep(step)}
-              >
-                <div className="absolute inset-0 rounded-lg border border-white/10 group-hover:border-[#D4AF37] transition-all duration-500 overflow-hidden">
-                  {/* Phase Label */}
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/80 rounded-full text-[#D4AF37] text-xs z-20">
-                    Phase {index + 1}
-                  </div>
-
-                  {/* Duration Label */}
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-black/80 rounded-full text-white/70 text-xs z-20">
-                    {step.duration}
-                  </div>
-
-                  {/* Description Overlay */}
+        <div className="relative px-12">
+          <Carousel
+            className="w-full"
+            opts={{
+              align: "center",
+              loop: true,
+              skipSnaps: false,
+              containScroll: "trimSnaps",
+            }}
+          >
+            <CarouselContent className="-ml-4">
+              {steps.map((step, index) => (
+                <CarouselItem key={step.phase} className="pl-4 ">
                   <div
-                    className={`absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-6 transition-opacity duration-500 ${
-                      hoveredStep === index ? "opacity-0" : "opacity-100"
-                    }`}
+                    className="group relative h-[500px] cursor-pointer transition-transform duration-300 hover:scale-105"
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={() => handleMouseLeave(index)}
+                    onClick={() => setSelectedStep(step)}
                   >
-                    <step.icon className="w-8 h-8 text-[#D4AF37] mb-4" />
-                    <h3 className="text-white text-lg font-medium text-center mb-2">
-                      {step.phase}
-                    </h3>
-                    <p className="text-white/60 text-sm text-center">
-                      {step.tagline}
-                    </p>
-                  </div>
+                    <div className="absolute inset-0 rounded-lg border border-white/10 group-hover:border-[#D4AF37] transition-all duration-500 overflow-hidden">
+                      {/* Background gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30 z-10" />
 
-                  <video
-                    ref={(el) => {
-                      if (el) videoRefs.current[index] = el;
-                    }}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    src={step.videoUrl}
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                      {/* Video background */}
+                      <video
+                        ref={(el) => {
+                          if (el) videoRefs.current[index] = el;
+                        }}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        src={step.videoUrl}
+                        muted
+                        loop
+                        playsInline
+                        preload="auto"
+                      />
+
+                      {/* Phase number with better visibility */}
+                      <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                        <span className="text-[140px] font-bold text-white/20 group-hover:text-[#D4AF37]/30 transition-colors duration-500">
+                          {index + 1}
+                        </span>
+                      </div>
+
+                      {/* Content overlay */}
+                      <div className="absolute inset-0 z-30">
+                        {/* Phase Label */}
+                        <div className="absolute top-4 left-4 px-3 py-1 bg-black/80 rounded-full text-[#D4AF37] text-xs">
+                          Phase {index + 1}
+                        </div>
+
+                        {/* Duration Label */}
+                        <div className="absolute top-4 right-4 px-3 py-1 bg-black/80 rounded-full text-white/70 text-xs">
+                          {step.duration}
+                        </div>
+
+                        {/* Description content */}
+                        <div
+                          className={`absolute inset-0 flex flex-col items-center justify-center p-6 transition-opacity duration-500 ${
+                            hoveredStep === index ? "opacity-0" : "opacity-100"
+                          }`}
+                        >
+                          <step.icon className="w-8 h-8 text-[#D4AF37] mb-4" />
+                          <h3 className="text-white text-lg font-medium text-center mb-2">
+                            {step.phase}
+                          </h3>
+                          <p className="text-white/60 text-sm text-center">
+                            {step.tagline}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0 bg-black/50 hover:bg-black/80 border-[#D4AF37]/30" />
+            <CarouselNext className="right-0 bg-black/50 hover:bg-black/80 border-[#D4AF37]/30" />
+          </Carousel>
+        </div>
 
         <Dialog
           open={!!selectedStep}
@@ -278,7 +304,6 @@ const OurProcess = () => {
                 </DialogHeader>
 
                 <div className="mt-4 space-y-4">
-                  {/* Video in modal */}
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                     <video
                       className="w-full h-full object-cover"
@@ -309,7 +334,6 @@ const OurProcess = () => {
                     Estimated Duration: {selectedStep.duration}
                   </div>
 
-                  {/* Call to Action */}
                   <div className="mt-6 text-center">
                     <Button
                       className="bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90"

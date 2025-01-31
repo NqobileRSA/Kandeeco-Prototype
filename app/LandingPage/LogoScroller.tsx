@@ -15,68 +15,76 @@ const LogoScroller = () => {
     "BVLGARI",
   ];
 
-  const row2Companies = [
-    "VERSACE",
-    "FENDI",
-    "BURBERRY",
-    "OMEGA",
-    "ROLEX",
-    "BALENCIAGA",
-    "VALENTINO",
-    "ARMANI",
-    "YSL",
-    "GIVENCHY",
-  ];
+  // const row2Companies = [
+  //   "VERSACE",
+  //   "FENDI",
+  //   "BURBERRY",
+  //   "OMEGA",
+  //   "ROLEX",
+  //   "BALENCIAGA",
+  //   "VALENTINO",
+  //   "ARMANI",
+  //   "YSL",
+  //   "GIVENCHY",
+  // ];
 
   const doubledRow1 = [...row1Companies, ...row1Companies];
-  const doubledRow2 = [...row2Companies, ...row2Companies];
+  // const doubledRow2 = [...row2Companies, ...row2Companies];
 
   return (
-    <section className="relative overflow-hidden py-10 bg-black">
-      {/* Section Title */}
-      {/* <div className="text-center mb-16">
-        <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-4 flex items-center justify-center">
-          <span className="w-8 h-[1px] bg-[#D4AF37] mr-4" />
+    <section className="relative overflow-hidden py-5 bg-black">
+      {/* Background Text - "Our Clients" */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[0]">
+        <h2 className="text-[13rem] font-bold text-orange-300/50 tracking-[2.5px] uppercase">
           Our Clients
-          <span className="w-8 h-[1px] bg-[#D4AF37] ml-4" />
-        </div>
-      </div> */}
+        </h2>
+      </div>
+
+      {/* Gradient Fades for Smooth Transitions */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10" />
 
       {/* First Row - Left to Right */}
-      <div className="relative mb-16">
+      <div className="relative my-2 z-20">
         <div className="flex animate-scroll-left">
           {doubledRow1.map((company, index) => (
             <div
               key={`${company}-${index}`}
               className="flex items-center justify-center min-w-[200px] px-8 group"
             >
-              <span className="text-white text-xl tracking-[4px] font-light hover:text-[#D4AF37] transition-all duration-300 group-hover:scale-110">
-                {company}
-              </span>
+              <div className="relative p-4 rounded-lg border border-white/10 hover:border-[#D4AF37] transition-all duration-300 group-hover:shadow-lg">
+                <span className="text-white text-xl tracking-[4px] font-light hover:text-[#D4AF37] transition-all duration-300 group-hover:scale-105">
+                  {company}
+                </span>
+                <div className="absolute inset-0 bg-[#D4AF37] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+              </div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Second Row - Right to Left */}
-      <div className="relative">
+      {/* <div className="relative z-20">
         <div className="flex animate-scroll-right">
           {doubledRow2.map((company, index) => (
             <div
               key={`${company}-${index}`}
               className="flex items-center justify-center min-w-[200px] px-8 group"
             >
-              <span className="text-white text-xl tracking-[4px] font-light hover:text-[#D4AF37] transition-all duration-300 group-hover:scale-110">
-                {company}
-              </span>
+              <div className="relative p-4 rounded-lg border border-white/10 hover:border-[#D4AF37] transition-all duration-300 group-hover:shadow-lg">
+                <span className="text-white text-xl tracking-[4px] font-light hover:text-[#D4AF37] transition-all duration-300 group-hover:scale-105">
+                  {company}
+                </span>
+                <div className="absolute inset-0 bg-[#D4AF37] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
-      {/* Gradient Overlays */}
-      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-black to-transparent z-10" />
-      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-black to-transparent z-10" />
+      {/* Gradient Overlays for Scrolling Effect */}
+      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-black to-transparent z-30" />
+      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-black to-transparent z-30" />
     </section>
   );
 };
