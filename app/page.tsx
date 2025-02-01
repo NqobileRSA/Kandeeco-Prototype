@@ -6,7 +6,7 @@ import OurProcess from "./LandingPage/OurProcess";
 import CallToAction from "./LandingPage/CallToAction";
 import Footer from "@/components/Footer";
 import LogoScroller from "./LandingPage/LogoScroller";
-import Team from "./LandingPage/Team";
+// import Team from "./LandingPage/Team";
 import Services from "./LandingPage/Services";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
       <AboutUs />
       <FeaturedWork />
       <OurProcess />
-      <Team />
+      {/* <Team /> */}
       <CallToAction />
       <Footer />
     </>
