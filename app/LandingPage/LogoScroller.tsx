@@ -32,13 +32,13 @@ const LogoScroller = () => {
   // const doubledRow2 = [...row2Companies, ...row2Companies];
 
   return (
-    <section className="relative overflow-hidden py-5 bg-black">
+    <section className="relative overflow-hidden py-2 bg-black">
       {/* Background Text - "Our Clients" */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[0]">
+      {/* <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[0]">
         <h2 className="text-[13rem] font-bold text-orange-300/50 tracking-[2.5px] uppercase">
           Our Clients
         </h2>
-      </div>
+      </div> */}
 
       {/* Gradient Fades for Smooth Transitions */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-10" />

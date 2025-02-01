@@ -15,7 +15,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <LogoScroller />
-      <Services />
+      {/* <Services /> */}
       <AboutUs />
       <FeaturedWork />
       <OurProcess />

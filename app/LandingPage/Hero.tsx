@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative h-[80vh] overflow-hidden">
+    <section className="relative h-[95vh] overflow-hidden">
       {/* Slides */}
       <div className="relative h-full">
         {slides.map((slide, index) => (

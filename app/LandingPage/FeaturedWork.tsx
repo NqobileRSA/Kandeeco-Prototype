@@ -21,6 +21,7 @@ type Work = {
   image?: string;
   link: string;
   duration?: string;
+  size?: "large" | "medium" | "small";
 };
 
 const works: Work[] = [
@@ -31,6 +32,7 @@ const works: Work[] = [
     description: "Experimental light painting series",
     image: "/assets/img1.jpg",
     link: "/portfolio/photography/light-shadow",
+    size: "large",
   },
   {
     category: "photography",
@@ -39,6 +41,7 @@ const works: Work[] = [
     description: "Long exposure dance photography",
     image: "/assets/img2.jpg",
     link: "/portfolio/photography/dance",
+    size: "small",
   },
   {
     category: "photography",
@@ -47,6 +50,7 @@ const works: Work[] = [
     description: "Geometric architecture studies",
     image: "/assets/img3.jpg",
     link: "/portfolio/photography/urban",
+    size: "medium",
   },
   {
     category: "photography",
@@ -55,6 +59,7 @@ const works: Work[] = [
     description: "Experimental light painting series",
     image: "/assets/img7.jpg",
     link: "/portfolio/photography/light-shadow",
+    size: "small",
   },
   {
     category: "photography",
@@ -63,6 +68,7 @@ const works: Work[] = [
     description: "Long exposure dance photography",
     image: "/assets/img6.jpg",
     link: "/portfolio/photography/dance",
+    size: "large",
   },
   {
     category: "photography",
@@ -71,14 +77,23 @@ const works: Work[] = [
     description: "Geometric architecture studies",
     image: "/assets/img8.jpg",
     link: "/portfolio/photography/urban",
+    size: "medium",
   },
-  // Videos
+  {
+    category: "photography",
+    subcategory: "Abstract",
+    title: "Image 3",
+    description: "Geometric architecture studies",
+    image: "/assets/team1.jpg",
+    link: "/portfolio/photography/urban",
+    size: "medium",
+  },
+  // Videos remain the same...
   {
     category: "videography",
     subcategory: "Experimental",
     title: "Chromatic Dreams",
     description: "Abstract visual journey",
-    // image: "/assets/ciroc.mp4",
     video: "/assets/ciroc.mp4",
     link: "https://www.instagram.com/p/CczbTBODqPg/",
   },
@@ -87,7 +102,6 @@ const works: Work[] = [
     subcategory: "Short Film",
     title: "City Rhythms",
     description: "Urban life in motion",
-    // image: "/assets/img2.jpg",
     video: "/assets/telkom.mp4",
     link: "/portfolio/videography/rhythms",
   },
@@ -96,7 +110,6 @@ const works: Work[] = [
     subcategory: "Art Film",
     title: "Elements",
     description: "Visual poetry of nature",
-    // image: "/assets/img5.jpg",
     video: "/assets/pepsi.mp4",
     link: "/portfolio/videography/elements",
   },
@@ -110,6 +123,17 @@ const FeaturedWork: React.FC = () => {
   const [selectedWork, setSelectedWork] = useState<Work | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
   const modalVideoRef = useRef<HTMLVideoElement>(null);
+
+  const getGridClasses = (size?: string) => {
+    switch (size) {
+      case "large":
+        return "col-span-2 row-span-2 h-[800px]";
+      case "medium":
+        return "col-span-1 row-span-2 h-[800px]";
+      default:
+        return "col-span-1 row-span-1 h-[400px]";
+    }
+  };
 
   const handleMouseEnter = (title: string) => {
     setHoveredWork(title);
@@ -177,13 +201,13 @@ const FeaturedWork: React.FC = () => {
   };
 
   return (
-    <section className="relative bg-black min-h-screen py-32">
+    <section className="relative bg-black min-h-screen">
       <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5 bg-cover bg-center" />
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-8">
-        {/* Header section remains the same */}
-        <div className="text-center mb-20">
+      <div className="relative z-10">
+        {/* Header section with reduced padding */}
+        {/* <div className="text-center py-16">
           <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-6 flex items-center justify-center">
             <span className="w-8 h-px bg-[#D4AF37] mr-4" />
             Featured Work
@@ -192,14 +216,10 @@ const FeaturedWork: React.FC = () => {
           <h2 className="text-4xl text-white font-light tracking-wide mb-8">
             Masterpieces in Motion
           </h2>
-          <p className="max-w-2xl mx-auto text-white/70 leading-relaxed">
-            Discover our curated collection of visual stories that push the
-            boundaries of creativity and storytelling.
-          </p>
-        </div>
+        </div> */}
 
-        {/* Category buttons remain the same */}
-        <div className="flex justify-center gap-8 mb-16">
+        {/* Category buttons */}
+        <div className="flex justify-center gap-8 mb-8">
           {["photography", "videography"].map((category) => (
             <button
               key={category}
@@ -217,40 +237,26 @@ const FeaturedWork: React.FC = () => {
           ))}
         </div>
 
-        {/* Grid of works */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        {/* New grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 px-1">
           {works
             .filter((work) => work.category === activeCategory)
             .map((work) => (
               <div
                 key={work.title}
-                className={`group relative h-[500px] transition-transform duration-500 ${
-                  hoveredWork === work.title ? "scale-105" : ""
+                className={`${getGridClasses(work.size)} group relative transition-transform duration-500 ${
+                  hoveredWork === work.title ? "scale-[1.02]" : ""
                 }`}
                 onMouseEnter={() => handleMouseEnter(work.title)}
                 onMouseLeave={() => handleMouseLeave(work.title)}
                 onClick={() => handleWorkClick(work)}
               >
-                <div className="relative h-full rounded-lg border border-white/10 group-hover:border-[#D4AF37] transition-all duration-500 overflow-hidden cursor-pointer">
-                  {/* Category Label */}
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/80 rounded-full text-[#D4AF37] text-xs z-20">
-                    {work.subcategory}
-                  </div>
-
-                  {/* Duration Label for Videos */}
-                  {work.duration && (
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-black/80 rounded-full text-white/70 text-xs z-20">
-                      {work.duration}
-                    </div>
-                  )}
-
+                <div className="relative h-full overflow-hidden">
                   {/* Media Content */}
-                  {work.video && (
+                  {work.video ? (
                     <video
                       ref={(el) => {
-                        if (el) {
-                          videoRefs.current[work.title] = el;
-                        }
+                        if (el) videoRefs.current[work.title] = el;
                       }}
                       src={work.video}
                       className="absolute inset-0 w-full h-full object-cover"
@@ -259,8 +265,7 @@ const FeaturedWork: React.FC = () => {
                       playsInline
                       preload="auto"
                     />
-                  )}
-                  {work.image && (
+                  ) : (
                     <img
                       src={work.image}
                       alt={work.title}
@@ -268,21 +273,19 @@ const FeaturedWork: React.FC = () => {
                     />
                   )}
 
-                  {/* Description Overlay */}
+                  {/* Hover Overlay */}
                   <div
                     className={`absolute inset-0 bg-black/60 flex flex-col justify-end p-8 transition-opacity duration-500 ${
                       hoveredWork === work.title ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    {work.category === "videography" ? (
-                      <Film className="w-8 h-8 text-[#D4AF37] mb-4" />
-                    ) : (
-                      <Camera className="w-8 h-8 text-[#D4AF37] mb-4" />
-                    )}
-                    <h3 className="text-white text-2xl font-light mb-3">
+                    <div className="text-[#D4AF37] text-xs uppercase tracking-wider mb-2">
+                      {work.subcategory}
+                    </div>
+                    <h3 className="text-white text-2xl font-light mb-2">
                       {work.title}
                     </h3>
-                    <p className="text-white/70 text-sm mb-6">
+                    <p className="text-white/70 text-sm mb-4">
                       {work.description}
                     </p>
                     <a
