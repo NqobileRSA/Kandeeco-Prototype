@@ -1,8 +1,8 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { X, ChevronDown, Search, Phone } from 'lucide-react';
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { X, ChevronDown, Search, Phone } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -11,19 +11,19 @@ interface NavItem {
 }
 
 const navigation: NavItem[] = [
-  { label: 'Home', href: '/' },
-  { 
-    label: 'Portfolio', 
-    href: '/portfolio',
+  { label: "Home", href: "/" },
+  {
+    label: "Portfolio",
+    href: "/portfolio",
     subItems: [
-      { label: 'Wedding', href: '/portfolio/wedding' },
-      { label: 'Corporate', href: '/portfolio/corporate' },
-      { label: 'Events', href: '/portfolio/events' }
-    ]
+      { label: "Wedding", href: "/portfolio/wedding" },
+      { label: "Corporate", href: "/portfolio/corporate" },
+      { label: "Events", href: "/portfolio/events" },
+    ],
   },
-  { label: 'Services', href: '/services' },
-  { label: 'Team', href: '/team' },
-  { label: 'Process', href: '/process' }
+  { label: "Services", href: "/services" },
+  { label: "Team", href: "/team" },
+  { label: "Process", href: "/process" },
 ];
 
 const Navbar = () => {
@@ -36,8 +36,8 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const DropdownMenu = ({ item }: { item: NavItem }) => (
@@ -51,7 +51,7 @@ const Navbar = () => {
       <div className="relative">
         {/* Decorative line */}
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 bg-[#D4AF37]/30" />
-        
+
         {/* Main dropdown box */}
         <div className="bg-black/80 backdrop-blur-lg border border-white/5 rounded-sm p-1">
           <div className="bg-black/40 p-4 space-y-1">
@@ -83,11 +83,11 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-black/80 backdrop-blur-lg' : 'bg-transparent'
+        isScrolled ? "bg-black/80 backdrop-blur-lg" : "bg-transparent"
       }`}
     >
       {/* Top bar with contact info */}
-      <motion.div 
+      <motion.div
         initial={{ height: 40 }}
         animate={{ height: isScrolled ? 0 : 40 }}
         className="bg-black/40 backdrop-blur-sm overflow-hidden"
@@ -95,7 +95,10 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-8 h-full flex items-center justify-between text-xs tracking-[2px]">
           <span className="text-white/70">Creating Timeless Memories</span>
           <div className="flex items-center space-x-8">
-            <a href="tel:+1234567890" className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2">
+            <a
+              href="tel:+1234567890"
+              className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2"
+            >
               <Phone className="w-3 h-3" />
               <span>+123 456 7890</span>
             </a>
@@ -106,7 +109,7 @@ const Navbar = () => {
       {/* Main navbar */}
       <div className="border-b border-white/5">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="flex justify-between items-center h-24">
+          <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link href="/" className="relative group">
               <span className="text-[#D4AF37] text-xl font-light tracking-[6px]">
@@ -147,7 +150,7 @@ const Navbar = () => {
                   />
                 </div>
               ))}
-              
+
               {/* Contact button */}
               <Link
                 href="/contact"
@@ -156,9 +159,7 @@ const Navbar = () => {
                 <span className="relative z-10 text-sm tracking-[3px] text-white group-hover:text-black transition-colors">
                   CONTACT
                 </span>
-                <motion.div
-                  className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-12 group-hover:translate-x-0 transition-transform duration-300"
-                />
+                <motion.div className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-12 group-hover:translate-x-0 transition-transform duration-300" />
               </Link>
 
               {/* Search button */}
@@ -177,7 +178,11 @@ const Navbar = () => {
             >
               <div className="w-6 h-6 flex items-center justify-center">
                 <motion.div
-                  animate={isMobileMenuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -5 }}
+                  animate={
+                    isMobileMenuOpen
+                      ? { rotate: 45, y: 0 }
+                      : { rotate: 0, y: -5 }
+                  }
                   className="absolute w-full h-px bg-white"
                 />
                 <motion.div
@@ -185,7 +190,11 @@ const Navbar = () => {
                   className="absolute w-full h-px bg-white"
                 />
                 <motion.div
-                  animate={isMobileMenuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 5 }}
+                  animate={
+                    isMobileMenuOpen
+                      ? { rotate: -45, y: 0 }
+                      : { rotate: 0, y: 5 }
+                  }
                   className="absolute w-full h-px bg-white"
                 />
               </div>
@@ -199,7 +208,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-black/95 backdrop-blur-lg border-t border-white/5"
           >
@@ -208,7 +217,11 @@ const Navbar = () => {
                 <div key={item.href} className="space-y-2">
                   <motion.div
                     className="flex items-center justify-between"
-                    onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
+                    onClick={() =>
+                      setActiveDropdown(
+                        activeDropdown === item.label ? null : item.label
+                      )
+                    }
                   >
                     <Link
                       href={item.href}
@@ -217,16 +230,18 @@ const Navbar = () => {
                       {item.label}
                     </Link>
                     {item.subItems && (
-                      <ChevronDown className={`w-4 h-4 text-[#D4AF37] transition-transform duration-300 ${
-                        activeDropdown === item.label ? 'rotate-180' : ''
-                      }`} />
+                      <ChevronDown
+                        className={`w-4 h-4 text-[#D4AF37] transition-transform duration-300 ${
+                          activeDropdown === item.label ? "rotate-180" : ""
+                        }`}
+                      />
                     )}
                   </motion.div>
                   <AnimatePresence>
                     {item.subItems && activeDropdown === item.label && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
+                        animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         className="pl-4 space-y-3 py-2"
                       >
