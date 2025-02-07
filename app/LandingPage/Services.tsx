@@ -35,7 +35,7 @@ const services: Service[] = [
 
 const Services: React.FC = () => {
   return (
-    <div className="w-full bg-black">
+    <div className="w-full bg-black py-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
         {services.map((service, index) => (
           <div

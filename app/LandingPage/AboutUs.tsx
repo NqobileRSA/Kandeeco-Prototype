@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import { Phone } from "lucide-react";
 
 const AboutUs = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -43,7 +42,7 @@ const AboutUs = () => {
         />
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black" />
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-white" /> */}
 
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
           <motion.h1
@@ -56,7 +55,7 @@ const AboutUs = () => {
           </motion.h1>
 
           {/* Enhanced "Call Us" CTA */}
-          <motion.a
+          {/* <motion.a
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -68,7 +67,7 @@ const AboutUs = () => {
               Call Us
             </span>
             <div className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-12 group-hover:translate-x-0 transition-transform duration-300" />
-          </motion.a>
+          </motion.a> */}
         </div>
       </div>
 
