@@ -49,7 +49,9 @@ const SocialCard: FC<SocialCardProps> = ({
   link,
 }) => {
   const IconComponent =
-    LucideIcons[iconName as keyof typeof LucideIcons] || LucideIcons["Circle"];
+    (LucideIcons[
+      iconName as keyof typeof LucideIcons
+    ] as FC<LucideIcons.LucideProps>) || LucideIcons.Circle;
 
   return (
     <div className="bg-neutral-900 rounded-lg p-8 flex flex-col justify-between min-h-[280px] hover:bg-neutral-800 transition-all duration-300">
