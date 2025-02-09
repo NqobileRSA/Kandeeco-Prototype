@@ -20,7 +20,7 @@ const AboutUs = () => {
   };
 
   return (
-    <section className="relative min-h-screen">
+    <section className="relative min-h-screen bg-black">
       {/* Hero Section */}
       <div
         className="relative h-screen"
@@ -31,7 +31,7 @@ const AboutUs = () => {
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
-          src="/placeholder/reelhd.mp4"
+          src="/assets/pepsi.mp4"
           muted
           loop
           playsInline

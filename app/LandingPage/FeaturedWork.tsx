@@ -116,9 +116,9 @@ const works: Work[] = [
 ];
 
 const FeaturedWork: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<
-    "photography" | "videography"
-  >("photography");
+  const [activeCategory] = useState<"photography" | "videography">(
+    "photography"
+  );
   const [hoveredWork, setHoveredWork] = useState<string | null>(null);
   const [, setSelectedWork] = useState<Work | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
@@ -171,7 +171,7 @@ const FeaturedWork: React.FC = () => {
     <section className="relative bg-white min-h-screen">
       <div className="relative z-10">
         {/* Header section with reduced padding */}
-        <div className="px-8 md:px-16 py-8">
+        {/* <div className="px-8 md:px-16 py-8">
           <div className="max-w-screen-xl mx-auto">
             <div className="flex flex-col items-start">
               <div className="text-[#FF852A] text-sm font-['Avenir_Next'] uppercase tracking-[8px] mb-4 flex items-center">
@@ -189,7 +189,7 @@ const FeaturedWork: React.FC = () => {
                 Masterpieces in Motion
               </h2>
 
-              {/* Updated category buttons with brand styling */}
+              
               <div className="flex gap-12">
                 {["photography", "videography"].map((category) => (
                   <button
@@ -220,7 +220,7 @@ const FeaturedWork: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/*  grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 p-3 max-w-8xl mx-auto">
@@ -259,7 +259,7 @@ const FeaturedWork: React.FC = () => {
                   )}
 
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-black from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   {/* Content Overlay */}
                   <div

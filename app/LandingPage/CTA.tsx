@@ -8,10 +8,10 @@ const CTA = () => {
 
       {/* Content */}
       <div className="relative max-w-4xl mx-auto">
-        <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tight">
+        <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight">
           Let&apos;s Bring Your Vision to Life
         </h2>
-        <p className="text-lg md:text-xl mt-4 opacity-90">
+        <p className="text-sm md:text-lg mt-4 opacity-90">
           Whether it&apos;s photography or videography, we craft compelling
           visuals that tell your story.
         </p>

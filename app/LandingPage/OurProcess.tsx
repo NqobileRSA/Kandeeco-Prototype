@@ -39,7 +39,7 @@ const OurProcess = () => {
       description:
         "Our journey begins with thorough planning and strategic development. We analyze your goals, target audience, and brand vision to create a comprehensive roadmap for success.",
       tagline: "Where vision meets strategy",
-      videoUrl: "/placeholder/reelhd.mp4",
+      videoUrl: "/assets/telkom.mp4",
       deliverables: [
         "Creative Brief",
         "Production Schedule",
@@ -55,7 +55,7 @@ const OurProcess = () => {
       description:
         "Our creative team meticulously crafts compelling narratives and visual frameworks that align with your brand's voice and objectives.",
       tagline: "Crafting your narrative",
-      videoUrl: "/videos/creative-development.mp4",
+      videoUrl: "/assets/pepsi.mp4",
       deliverables: [
         "Final Script",
         "Storyboards",
@@ -147,13 +147,13 @@ const OurProcess = () => {
   };
 
   return (
-    <section className="relative bg-black min-h-screen py-24">
-      <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5 bg-cover bg-center" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
+    <section className="relative bg-white min-h-screen py-24">
+      {/* <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5 bg-cover bg-center" /> */}
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" /> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-8">
         <div className="text-center mb-20">
-          <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-6 flex items-center justify-center">
+          {/* <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-6 flex items-center justify-center">
             <span className="w-8 h-px bg-[#D4AF37] mr-4" />
             Our Process
             <span className="w-8 h-px bg-[#D4AF37] ml-4" />
@@ -167,7 +167,7 @@ const OurProcess = () => {
             Our refined production process ensures every project is executed
             with precision, creativity, and attention to detail, delivering
             exceptional results that exceed expectations.
-          </p>
+          </p> */}
 
           {/* Step Labels */}
           <div className="flex justify-center items-center gap-4 mb-12">
@@ -184,13 +184,13 @@ const OurProcess = () => {
                 <div
                   className={`w-12 h-12 rounded-full border-2 ${
                     hoveredStep === index
-                      ? "border-[#D4AF37] bg-[#D4AF37]/10"
-                      : "border-white/30"
+                      ? "border-[#FF852A] bg-[#FF852A]/10"
+                      : "border-black/30"
                   } flex items-center justify-center mb-2 transition-all duration-300`}
                 >
                   <span
                     className={`text-lg ${
-                      hoveredStep === index ? "text-[#D4AF37]" : "text-white/70"
+                      hoveredStep === index ? "text-[#FF852A]" : "text-black/70"
                     }`}
                   >
                     {index + 1}
@@ -198,7 +198,7 @@ const OurProcess = () => {
                 </div>
                 <span
                   className={`text-xs uppercase tracking-wider ${
-                    hoveredStep === index ? "text-[#D4AF37]" : "text-white/50"
+                    hoveredStep === index ? "text-[#FF852A]" : "text-black/50"
                   } transition-colors duration-300`}
                 >
                   {step.phase}
@@ -213,14 +213,14 @@ const OurProcess = () => {
             {steps.map((step, index) => (
               <CarouselItem
                 key={step.phase}
-                className="group relative h-[500px] w-[400px] cursor-pointer"
+                className="group relative h-[500px] w-[400px] cursor-pointer basis-[80%] pl-4 mr-[20px]"
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
                 onClick={() => setSelectedStep(step)}
               >
-                <div className="absolute inset-0 rounded-lg border border-white/10 group-hover:border-[#D4AF37] transition-all duration-500 overflow-hidden">
+                <div className="absolute inset-0 rounded-lg border border-white/10 group-hover:border-[#FF852A] transition-all duration-500 overflow-hidden">
                   {/* Phase Label */}
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/80 rounded-full text-[#D4AF37] text-xs z-20">
+                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/80 rounded-full text-[#FF852A] text-xs z-20">
                     Phase {index + 1}
                   </div>
 
@@ -235,7 +235,7 @@ const OurProcess = () => {
                       hoveredStep === index ? "opacity-0" : "opacity-100"
                     }`}
                   >
-                    <step.icon className="w-8 h-8 text-[#D4AF37] mb-4" />
+                    <step.icon className="w-8 h-8 text-[#FF852A] mb-4" />
                     <h3 className="text-white text-lg font-medium text-center mb-2">
                       {step.phase}
                     </h3>
@@ -265,13 +265,13 @@ const OurProcess = () => {
           open={!!selectedStep}
           onOpenChange={() => setSelectedStep(null)}
         >
-          <DialogContent className="bg-black/95 border-[#D4AF37]/30 max-w-4xl">
+          <DialogContent className="bg-black/95 border-[#FF852A]/30 max-w-4xl">
             {selectedStep && (
               <>
                 <DialogHeader>
                   <DialogTitle className="text-2xl text-white flex items-center gap-3">
                     {selectedStep.icon && (
-                      <selectedStep.icon className="w-6 h-6 text-[#D4AF37]" />
+                      <selectedStep.icon className="w-6 h-6 text-[#FF852A]" />
                     )}
                     {selectedStep.phase}
                   </DialogTitle>
@@ -292,14 +292,14 @@ const OurProcess = () => {
 
                   <p className="text-white/70">{selectedStep.description}</p>
                   <div className="bg-white/5 p-4 rounded-lg">
-                    <h4 className="text-[#D4AF37] mb-2">Deliverables</h4>
+                    <h4 className="text-[#FF852A] mb-2">Deliverables</h4>
                     <ul className="grid grid-cols-2 gap-2">
                       {selectedStep.deliverables.map((item, i) => (
                         <li
                           key={i}
                           className="text-white/70 text-sm flex items-center gap-2"
                         >
-                          <div className="w-1 h-1 bg-[#D4AF37] rounded-full" />
+                          <div className="w-1 h-1 bg-[#FF852A] rounded-full" />
                           {item}
                         </li>
                       ))}
@@ -312,7 +312,7 @@ const OurProcess = () => {
                   {/* Call to Action */}
                   <div className="mt-6 text-center">
                     <Button
-                      className="bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90"
+                      className="bg-[#FF852A] text-black hover:bg-[#FF852A]/90"
                       onClick={() => (window.location.href = "/contact")}
                     >
                       Start Your Project
@@ -325,7 +325,7 @@ const OurProcess = () => {
                     <Button
                       variant="outline"
                       onClick={handlePrevious}
-                      className="border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 text-[#D4AF37] hover:text-[#D4AF37]"
+                      className="border-[#FF852A]/30 hover:bg-[#FF852A]/10 text-[#FF852A] hover:text-[#FF852A]"
                     >
                       <ChevronLeft className="w-4 h-4 mr-2" />
                       Previous Step
@@ -333,7 +333,7 @@ const OurProcess = () => {
                     <Button
                       variant="outline"
                       onClick={handleNext}
-                      className="border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 text-[#D4AF37] hover:text-[#D4AF37]"
+                      className="border-[#FF852A]/30 hover:bg-[#FF852A]/10 text-[#FF852A] hover:text-[#FF852A]"
                     >
                       Next Step
                       <ChevronRight className="w-4 h-4 ml-2" />

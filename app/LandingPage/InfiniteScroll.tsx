@@ -16,13 +16,14 @@ const InfiniteScrollText = () => {
 
   return (
     // TODO add roboto mono font
-    <div className="w-full overflow-hidden bg-black py-2">
+    // TODO make this component take props for direction
+    <div className="w-full overflow-hidden bg-black py-2 ">
       <motion.div
         className="flex whitespace-nowrap text-gray-400 text-sm font-medium tracking-[0.5px] pr-[5px]"
         ref={containerRef}
         initial={{ x: 0 }}
         animate={{ x: -textWidth }}
-        transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+        transition={{ repeat: Infinity, duration: 14, ease: "linear" }}
       >
         <span className="flex">{text.repeat(15)}</span>
       </motion.div>

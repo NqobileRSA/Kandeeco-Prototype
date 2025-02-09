@@ -34,7 +34,7 @@ const socialLinks: SocialCardProps[] = [
     link: "https://Linkedin.com",
   },
   {
-    iconName: "Whatsapp",
+    iconName: "MessageCircleMore",
     title: "Whatsapp",
     description:
       "Explore our portfolio of fashion brand projects and creative collaborations on Behance.",
@@ -54,7 +54,7 @@ const SocialCard: FC<SocialCardProps> = ({
     ] as FC<LucideIcons.LucideProps>) || LucideIcons.Circle;
 
   return (
-    <div className="bg-neutral-900 rounded-lg p-8 flex flex-col justify-between min-h-[280px] hover:bg-neutral-800 transition-all duration-300">
+    <div className="bg-neutral-900 rounded-lg p-8 flex flex-col justify-between min-h-[280px] hover:bg-white-800 transition-all duration-300 border-b-2 border-orange-400">
       <div className="flex items-center justify-between">
         {IconComponent && <IconComponent size={24} className="text-white" />}
       </div>
@@ -68,8 +68,10 @@ const SocialCard: FC<SocialCardProps> = ({
         rel="noopener noreferrer"
         className="inline-flex items-center text-white text-sm mt-6 group"
       >
-        <div className="w-8 h-8 rounded-full bg-neutral-800 group-hover:bg-neutral-700 flex items-center justify-center mr-2 transition-colors">
-          <span className="transform rotate-45">↗</span>
+        <div className="w-8 h-8 rounded-full bg-neutral-800  group-hover:bg-neutral-700 flex items-center justify-center mr-2 transition-colors">
+          <span className="">
+            <LucideIcons.MoveUpRight size={10} />
+          </span>
         </div>
         VISIT {title}
       </Link>

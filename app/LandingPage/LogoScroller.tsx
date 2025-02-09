@@ -15,21 +15,21 @@ const LogoScroller = () => {
     "BVLGARI",
   ];
 
-  const row2Companies = [
-    "VERSACE",
-    "FENDI",
-    "BURBERRY",
-    "OMEGA",
-    "ROLEX",
-    "BALENCIAGA",
-    "VALENTINO",
-    "ARMANI",
-    "YSL",
-    "GIVENCHY",
-  ];
+  // const row2Companies = [
+  //   "VERSACE",
+  //   "FENDI",
+  //   "BURBERRY",
+  //   "OMEGA",
+  //   "ROLEX",
+  //   "BALENCIAGA",
+  //   "VALENTINO",
+  //   "ARMANI",
+  //   "YSL",
+  //   "GIVENCHY",
+  // ];
 
   const doubledRow1 = [...row1Companies, ...row1Companies];
-  const doubledRow2 = [...row2Companies, ...row2Companies];
+  // const doubledRow2 = [...row2Companies, ...row2Companies];
 
   return (
     <section className="relative overflow-hidden py-2 bg-white">
@@ -64,7 +64,7 @@ const LogoScroller = () => {
       </div>
 
       {/* Second Row - Right to Left */}
-      <div className="relative z-20">
+      {/* <div className="relative z-20">
         <div className="flex animate-scroll-right">
           {doubledRow2.map((company, index) => (
             <div
@@ -80,7 +80,7 @@ const LogoScroller = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Gradient Overlays for Scrolling Effect */}
       <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-30" />
