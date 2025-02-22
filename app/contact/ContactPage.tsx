@@ -222,7 +222,7 @@ const ContactPage = () => {
             <div className="h-px w-16 bg-gradient-to-r from-transparent via-[#FF852A] to-transparent" />
           </div>
           <h1 className="text-7xl md:text-9xl font-extralight text-white text-center leading-tight tracking-tight">
-            Let's Capture
+            Let&apos;s Capture
             <br />
             <span className="bg-gradient-to-r from-white via-[#FF852A] to-white bg-clip-text text-transparent">
               Your Story
@@ -293,7 +293,7 @@ const ContactPage = () => {
                 <span className="text-[#FF852A]"> Project</span>
               </h2>
               <p className="mt-4 text-[#DCDCDC]/90 text-lg">
-                Tell us about your vision and we'll bring it to life.
+                Tell us about your vision and we&apos;ll bring it to life.
               </p>
             </div>
 
