@@ -1,5 +1,5 @@
 import React from "react";
-import ContactPage from "./ContactPage";
+// import ContactPage from "./ContactPage";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FAQ from "./FAQ";
@@ -9,7 +9,7 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <ContactPage />
+      {/* <ContactPage /> */}
       <FAQ />
       <GalleryCTA />
       <Footer />

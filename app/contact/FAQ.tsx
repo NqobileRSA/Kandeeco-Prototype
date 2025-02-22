@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const [searchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const categories = [
