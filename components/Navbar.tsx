@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { X, ChevronDown, Search, Phone } from "lucide-react";
+import { ChevronDown, Phone, Calendar } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface NavItem {
   label: string;
@@ -12,25 +13,17 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { label: "Home", href: "/" },
-  {
-    label: "Portfolio",
-    href: "/portfolio",
-    subItems: [
-      { label: "Wedding", href: "/portfolio/wedding" },
-      { label: "Corporate", href: "/portfolio/corporate" },
-      { label: "Events", href: "/portfolio/events" },
-    ],
-  },
+  { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Team", href: "/team" },
-  { label: "Process", href: "/process" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,12 +42,9 @@ const Navbar = () => {
       className="absolute top-full left-1/2 -translate-x-1/2 w-64 mt-4"
     >
       <div className="relative">
-        {/* Decorative line */}
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 bg-[#D4AF37]/30" />
-
-        {/* Main dropdown box */}
-        <div className="bg-black/80 backdrop-blur-lg border border-white/5 rounded-sm p-1">
-          <div className="bg-black/40 p-4 space-y-1">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 bg-[#FF852A]/30" />
+        <div className="bg-[#343E48]/90 backdrop-blur-lg border border-white/5 rounded-sm p-1">
+          <div className="bg-[#343E48]/40 p-4 space-y-1">
             {item.subItems?.map((subItem) => (
               <Link
                 key={subItem.href}
@@ -65,8 +55,8 @@ const Navbar = () => {
                   whileHover={{ x: 10 }}
                   className="flex items-center space-x-4 py-2 px-4"
                 >
-                  <span className="w-5 h-[1px] bg-[#D4AF37]/30 group-hover:bg-[#D4AF37] transition-colors" />
-                  <span className="text-sm tracking-[2px] text-white/70 group-hover:text-[#D4AF37] transition-colors">
+                  <span className="w-5 h-[1px] bg-[#FF852A]/30 group-hover:bg-[#FF852A] transition-colors" />
+                  <span className="text-sm tracking-[2px] text-[#DCDCDC] group-hover:text-[#FF852A] transition-colors">
                     {subItem.label}
                   </span>
                 </motion.div>
@@ -83,21 +73,21 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled ? "bg-black/80 backdrop-blur-lg" : "bg-transparent"
+        isScrolled ? "bg-[#343E48]/90 backdrop-blur-lg" : "bg-transparent"
       }`}
     >
       {/* Top bar with contact info */}
       <motion.div
         initial={{ height: 40 }}
         animate={{ height: isScrolled ? 0 : 40 }}
-        className="bg-black/40 backdrop-blur-sm overflow-hidden"
+        className="bg-[#343E48]/40 backdrop-blur-sm overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-8 h-full flex items-center justify-between text-xs tracking-[2px]">
-          <span className="text-white/70">Creating Timeless Memories</span>
+          <span className="text-[#DCDCDC]">Creating Timeless Memories</span>
           <div className="flex items-center space-x-8">
             <a
               href="tel:+1234567890"
-              className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2"
+              className="text-[#DCDCDC] hover:text-[#FF852A] transition-colors flex items-center gap-2"
             >
               <Phone className="w-3 h-3" />
               <span>+123 456 7890</span>
@@ -112,11 +102,11 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link href="/" className="relative group">
-              <span className="text-[#D4AF37] text-xl font-light tracking-[6px]">
+              <span className="text-[#FF852A] text-xl font-light tracking-[6px]">
                 KANDEE.CO
               </span>
               <motion.div
-                className="absolute -bottom-2 left-0 w-full h-px bg-[#D4AF37]/30"
+                className="absolute -bottom-2 left-0 w-full h-px bg-[#FF852A]/30"
                 whileHover={{ scaleX: 1.2 }}
                 transition={{ duration: 0.3 }}
               />
@@ -133,42 +123,43 @@ const Navbar = () => {
                   >
                     <Link
                       href={item.href}
-                      className="text-white/90 text-sm tracking-[3px] group-hover:text-[#D4AF37] transition-colors"
+                      className={`text-sm tracking-[3px] transition-colors ${
+                        pathname === item.href
+                          ? "text-[#FF852A]"
+                          : "text-[#DCDCDC] group-hover:text-[#FF852A]"
+                      }`}
                     >
                       {item.label}
                     </Link>
                     {item.subItems && (
-                      <ChevronDown className="w-4 h-4 ml-1 text-[#D4AF37] transition-transform group-hover:rotate-180" />
+                      <ChevronDown className="w-4 h-4 ml-1 text-[#FF852A] transition-transform group-hover:rotate-180" />
                     )}
                     {item.subItems && activeDropdown === item.label && (
                       <DropdownMenu item={item} />
                     )}
                   </div>
                   <motion.div
-                    className="absolute bottom-6 left-0 w-full h-px bg-[#D4AF37]/30 scale-x-0 group-hover:scale-x-100 transition-transform"
+                    className={`absolute bottom-6 left-0 w-full h-px bg-[#FF852A]/30 transition-transform ${
+                      pathname === item.href
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
+                    }`}
                     transition={{ duration: 0.3 }}
                   />
                 </div>
               ))}
 
-              {/* Contact button */}
+              {/* Book Now button */}
               <Link
-                href="/contact"
-                className="relative overflow-hidden group px-8 py-3 bg-black/20 border border-[#D4AF37]/30 hover:border-[#D4AF37]"
+                href="/booking"
+                className="relative overflow-hidden group px-8 py-3 bg-[#343E48]/20 border border-[#FF852A]/30 hover:border-[#FF852A]"
               >
-                <span className="relative z-10 text-sm tracking-[3px] text-white group-hover:text-black transition-colors">
-                  CONTACT
+                <span className="relative z-10 text-sm tracking-[3px] text-white group-hover:text-[#343E48] transition-colors flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  BOOK NOW
                 </span>
-                <motion.div className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full skew-x-12 group-hover:translate-x-0 transition-transform duration-300" />
+                <motion.div className="absolute inset-0 bg-[#FF852A] transform -translate-x-full skew-x-12 group-hover:translate-x-0 transition-transform duration-300" />
               </Link>
-
-              {/* Search button */}
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="text-white/70 hover:text-[#D4AF37] transition-colors"
-              >
-                <Search className="w-5 h-5" />
-              </button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -183,11 +174,11 @@ const Navbar = () => {
                       ? { rotate: 45, y: 0 }
                       : { rotate: 0, y: -5 }
                   }
-                  className="absolute w-full h-px bg-white"
+                  className="absolute w-full h-px bg-[#DCDCDC]"
                 />
                 <motion.div
                   animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="absolute w-full h-px bg-white"
+                  className="absolute w-full h-px bg-[#DCDCDC]"
                 />
                 <motion.div
                   animate={
@@ -195,7 +186,7 @@ const Navbar = () => {
                       ? { rotate: -45, y: 0 }
                       : { rotate: 0, y: 5 }
                   }
-                  className="absolute w-full h-px bg-white"
+                  className="absolute w-full h-px bg-[#DCDCDC]"
                 />
               </div>
             </button>
@@ -210,7 +201,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black/95 backdrop-blur-lg border-t border-white/5"
+            className="md:hidden bg-[#343E48]/95 backdrop-blur-lg border-t border-white/5"
           >
             <div className="px-8 py-6 space-y-4">
               {navigation.map((item) => (
@@ -225,13 +216,17 @@ const Navbar = () => {
                   >
                     <Link
                       href={item.href}
-                      className="text-white/90 text-sm tracking-[3px] hover:text-[#D4AF37] transition-colors"
+                      className={`text-sm tracking-[3px] transition-colors ${
+                        pathname === item.href
+                          ? "text-[#FF852A]"
+                          : "text-[#DCDCDC] hover:text-[#FF852A]"
+                      }`}
                     >
                       {item.label}
                     </Link>
                     {item.subItems && (
                       <ChevronDown
-                        className={`w-4 h-4 text-[#D4AF37] transition-transform duration-300 ${
+                        className={`w-4 h-4 text-[#FF852A] transition-transform duration-300 ${
                           activeDropdown === item.label ? "rotate-180" : ""
                         }`}
                       />
@@ -251,8 +246,8 @@ const Navbar = () => {
                             href={subItem.href}
                             className="group flex items-center space-x-3"
                           >
-                            <span className="w-4 h-px bg-[#D4AF37]/30 group-hover:bg-[#D4AF37] transition-colors" />
-                            <span className="text-white/70 text-sm tracking-[2px] group-hover:text-[#D4AF37] transition-colors">
+                            <span className="w-4 h-px bg-[#FF852A]/30 group-hover:bg-[#FF852A] transition-colors" />
+                            <span className="text-[#DCDCDC] text-sm tracking-[2px] group-hover:text-[#FF852A] transition-colors">
                               {subItem.label}
                             </span>
                           </Link>
@@ -263,41 +258,12 @@ const Navbar = () => {
                 </div>
               ))}
               <Link
-                href="/contact"
-                className="block text-center py-3 border border-[#D4AF37]/30 text-white text-sm tracking-[3px] hover:bg-[#D4AF37] hover:text-black transition-all"
+                href="/booking"
+                className="block text-center py-3 border border-[#FF852A]/30 text-[#DCDCDC] text-sm tracking-[3px] hover:bg-[#FF852A] hover:text-[#343E48] transition-all flex items-center justify-center gap-2"
               >
-                CONTACT
+                <Calendar className="w-4 h-4" />
+                BOOK NOW
               </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Search Modal */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center"
-          >
-            <button
-              onClick={() => setIsSearchOpen(false)}
-              className="absolute top-8 right-8 text-white/70 hover:text-white"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            <div className="w-full max-w-3xl px-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full bg-transparent border-b border-white/10 py-4 text-white text-2xl focus:outline-none focus:border-[#D4AF37] transition-colors"
-                  autoFocus
-                />
-                <Search className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 text-white/30" />
-              </div>
             </div>
           </motion.div>
         )}

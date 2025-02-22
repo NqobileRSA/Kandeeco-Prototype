@@ -1,35 +1,13 @@
 "use client";
-
-import React, { useState, useRef } from "react";
-import {
-  PenTool,
-  Layout,
-  Film,
-  Edit,
-  Share,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import React, { useState, useRef, useEffect } from "react";
+import { PenTool, Layout, Film, Edit, Share, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 const OurProcess = () => {
-  const [selectedStep, setSelectedStep] = useState<
-    null | (typeof steps)[number]
-  >(null);
-  const [hoveredStep, setHoveredStep] = useState<null | number>(null);
-  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const videoRefs = useRef({});
+  const containerRef = useRef(null);
 
   const steps = [
     {
@@ -38,7 +16,6 @@ const OurProcess = () => {
       title: "Planning & Strategy",
       description:
         "Our journey begins with thorough planning and strategic development. We analyze your goals, target audience, and brand vision to create a comprehensive roadmap for success.",
-      tagline: "Where vision meets strategy",
       videoUrl: "/assets/telkom.mp4",
       deliverables: [
         "Creative Brief",
@@ -47,6 +24,7 @@ const OurProcess = () => {
         "Resource Plan",
       ],
       duration: "2-3 weeks",
+      color: "#FF6B6B",
     },
     {
       icon: Layout,
@@ -54,7 +32,6 @@ const OurProcess = () => {
       title: "Script & Storyboard",
       description:
         "Our creative team meticulously crafts compelling narratives and visual frameworks that align with your brand's voice and objectives.",
-      tagline: "Crafting your narrative",
       videoUrl: "/assets/pepsi.mp4",
       deliverables: [
         "Final Script",
@@ -63,6 +40,7 @@ const OurProcess = () => {
         "Location Plans",
       ],
       duration: "1-2 weeks",
+      color: "#4ECDC4",
     },
     {
       icon: Film,
@@ -70,7 +48,6 @@ const OurProcess = () => {
       title: "Filming & Direction",
       description:
         "With state-of-the-art equipment and expert direction, we bring your vision to life through cinematic excellence and attention to detail.",
-      tagline: "Bringing stories to life",
       videoUrl: "/placeholder/reelhd.mp4",
       deliverables: [
         "Raw Footage",
@@ -79,6 +56,7 @@ const OurProcess = () => {
         "Audio Files",
       ],
       duration: "1-4 days",
+      color: "#FFB84C",
     },
     {
       icon: Edit,
@@ -86,10 +64,10 @@ const OurProcess = () => {
       title: "Editing & Effects",
       description:
         "Our post-production team combines technical expertise with creative finesse to polish and perfect every frame of your content.",
-      tagline: "Perfecting every frame",
       videoUrl: "/placeholder/reelhd.mp4",
       deliverables: ["Rough Cut", "Color Grade", "Sound Mix", "Final Edit"],
       duration: "2-3 weeks",
+      color: "#95D1CC",
     },
     {
       icon: Share,
@@ -97,7 +75,6 @@ const OurProcess = () => {
       title: "Review & Launch",
       description:
         "We ensure your content meets the highest standards and is optimized for all intended platforms and audiences.",
-      tagline: "Excellence delivered",
       videoUrl: "/placeholder/reelhd.mp4",
       deliverables: [
         "Multiple Formats",
@@ -106,144 +83,168 @@ const OurProcess = () => {
         "Analytics Setup",
       ],
       duration: "1 week",
+      color: "#FF852A",
     },
   ];
 
-  const handleMouseEnter = (index: number) => {
-    setHoveredStep(index);
-    const videoElement = videoRefs.current[index];
+  useEffect(() => {
+    const video = videoRefs.current[activeStep];
+    if (video) {
+      video.play().catch((e) => console.log("Video playback failed:", e));
+      return () => {
+        video.pause();
+        video.currentTime = 0;
+      };
+    }
+  }, [activeStep]);
 
-    if (videoElement && videoElement.readyState >= 2) {
-      videoElement
-        .play()
-        .catch((e) => console.log("Video playback failed:", e));
+  const handleScroll = () => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const sections = container.getElementsByClassName("step-section");
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + section.offsetHeight;
+
+      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+        setActiveStep(i);
+        break;
+      }
     }
   };
 
-  const handleMouseLeave = (index: number) => {
-    setHoveredStep(null);
-    const videoElement = videoRefs.current[index];
-
-    if (videoElement) {
-      videoElement.pause();
-      videoElement.currentTime = 0;
-    }
-  };
-
-  const handlePrevious = () => {
-    const currentIndex = steps.findIndex(
-      (s) => s.phase === selectedStep?.phase
-    );
-    const newIndex = currentIndex > 0 ? currentIndex - 1 : steps.length - 1;
-    setSelectedStep(steps[newIndex]);
-  };
-
-  const handleNext = () => {
-    const currentIndex = steps.findIndex(
-      (s) => s.phase === selectedStep?.phase
-    );
-    const newIndex = currentIndex < steps.length - 1 ? currentIndex + 1 : 0;
-    setSelectedStep(steps[newIndex]);
-  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <section className="relative bg-white min-h-screen py-24">
-      {/* <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5 bg-cover bg-center" /> */}
-      {/* <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" /> */}
-
-      <div className="relative z-10 max-w-7xl mx-auto px-8">
-        <div className="text-center mb-20">
-          {/* <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-6 flex items-center justify-center">
-            <span className="w-8 h-px bg-[#D4AF37] mr-4" />
+    <div
+      className="relative bg-gradient-to-b from-white to-gray-50"
+      ref={containerRef}
+    >
+      <div className="max-w-7xl mx-auto px-4 py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#FF852A] to-[#FF6B6B]">
             Our Process
-            <span className="w-8 h-px bg-[#D4AF37] ml-4" />
-          </div>
-
-          <h2 className="text-4xl text-white font-light tracking-wide mb-8">
-            The Journey to Excellence
           </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            Follow our journey from concept to delivery, where each step is
+            crafted with precision and creativity.
+          </p>
+        </motion.div>
 
-          <p className="max-w-2xl mx-auto text-white/70 leading-relaxed mb-16">
-            Our refined production process ensures every project is executed
-            with precision, creativity, and attention to detail, delivering
-            exceptional results that exceed expectations.
-          </p> */}
+        <div className="relative">
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-[#FF852A] to-[#FF6B6B] opacity-20" />
 
-          {/* Step Labels */}
-          <div className="flex justify-center items-center gap-4 mb-12">
-            {steps.map((step, index) => (
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+              className={`step-section relative flex items-center mb-32
+                ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
+            >
               <div
-                key={index}
-                className={`flex flex-col items-center cursor-pointer transition-all duration-300 ${
-                  hoveredStep === index ? "scale-110" : ""
-                }`}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-                onClick={() => setSelectedStep(step)}
+                className={`absolute left-1/2 transform -translate-x-1/2 transition-all duration-300
+                ${activeStep === index ? "scale-150" : "scale-100"}`}
               >
                 <div
-                  className={`w-12 h-12 rounded-full border-2 ${
-                    hoveredStep === index
-                      ? "border-[#FF852A] bg-[#FF852A]/10"
-                      : "border-black/30"
-                  } flex items-center justify-center mb-2 transition-all duration-300`}
-                >
-                  <span
-                    className={`text-lg ${
-                      hoveredStep === index ? "text-[#FF852A]" : "text-black/70"
-                    }`}
-                  >
-                    {index + 1}
-                  </span>
-                </div>
-                <span
-                  className={`text-xs uppercase tracking-wider ${
-                    hoveredStep === index ? "text-[#FF852A]" : "text-black/50"
-                  } transition-colors duration-300`}
-                >
-                  {step.phase}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <Carousel className="relative">
-          <CarouselContent>
-            {steps.map((step, index) => (
-              <CarouselItem
-                key={step.phase}
-                className="group relative h-[500px] w-[400px] cursor-pointer basis-[80%] pl-4 mr-[20px]"
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-                onClick={() => setSelectedStep(step)}
-              >
-                <div className="absolute inset-0 rounded-lg border border-white/10 group-hover:border-[#FF852A] transition-all duration-500 overflow-hidden">
-                  {/* Phase Label */}
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/80 rounded-full text-[#FF852A] text-xs z-20">
-                    Phase {index + 1}
-                  </div>
-
-                  {/* Duration Label */}
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-black/80 rounded-full text-white/70 text-xs z-20">
-                    {step.duration}
-                  </div>
-
-                  {/* Description Overlay */}
+                  className="w-4 h-4 rounded-full"
+                  style={{ backgroundColor: step.color }}
+                />
+                {activeStep === index && (
                   <div
-                    className={`absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-6 transition-opacity duration-500 ${
-                      hoveredStep === index ? "opacity-0" : "opacity-100"
-                    }`}
-                  >
-                    <step.icon className="w-8 h-8 text-[#FF852A] mb-4" />
-                    <h3 className="text-white text-lg font-medium text-center mb-2">
-                      {step.phase}
-                    </h3>
-                    <p className="text-white/60 text-sm text-center">
-                      {step.tagline}
-                    </p>
+                    className="absolute inset-0 w-4 h-4 rounded-full animate-ping"
+                    style={{ backgroundColor: step.color, opacity: 0.2 }}
+                  />
+                )}
+              </div>
+
+              <div className={`w-1/2 ${index % 2 === 0 ? "pr-16" : "pl-16"}`}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="bg-white rounded-xl shadow-lg p-8 backdrop-blur-sm bg-opacity-90"
+                >
+                  <div className="flex items-center mb-4">
+                    <step.icon
+                      className="w-8 h-8 mr-4"
+                      style={{ color: step.color }}
+                    />
+                    <div>
+                      <h3
+                        className="text-2xl font-bold"
+                        style={{ color: step.color }}
+                      >
+                        {step.phase}
+                      </h3>
+                      <p className="text-sm text-gray-500">{step.duration}</p>
+                    </div>
                   </div>
 
+                  <p className="text-gray-700 mb-6 leading-relaxed">
+                    {step.description}
+                  </p>
+
+                  <div className="relative">
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-96" : "max-h-0"}`}
+                    >
+                      <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+                        <h4
+                          className="text-sm font-semibold mb-4"
+                          style={{ color: step.color }}
+                        >
+                          Deliverables
+                        </h4>
+                        <div className="grid grid-cols-2 gap-3">
+                          {step.deliverables.map((item, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: i * 0.1 }}
+                              className="flex items-center space-x-2"
+                            >
+                              <div
+                                className="w-1.5 h-1.5 rounded-full"
+                                style={{ backgroundColor: step.color }}
+                              />
+                              <span className="text-sm text-gray-600">
+                                {item}
+                              </span>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      className="mt-4 text-sm font-medium flex items-center gap-2 text-gray-500 hover:text-gray-700"
+                    >
+                      {isExpanded ? "Show less" : "View deliverables"}
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+
+              <div className={`w-1/2 ${index % 2 === 0 ? "pl-16" : "pr-16"}`}>
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-xl">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                   <video
                     ref={(el) => {
                       if (el) videoRefs.current[index] = el;
@@ -256,96 +257,12 @@ const OurProcess = () => {
                     preload="auto"
                   />
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-
-        <Dialog
-          open={!!selectedStep}
-          onOpenChange={() => setSelectedStep(null)}
-        >
-          <DialogContent className="bg-black/95 border-[#FF852A]/30 max-w-4xl">
-            {selectedStep && (
-              <>
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-white flex items-center gap-3">
-                    {selectedStep.icon && (
-                      <selectedStep.icon className="w-6 h-6 text-[#FF852A]" />
-                    )}
-                    {selectedStep.phase}
-                  </DialogTitle>
-                </DialogHeader>
-
-                <div className="mt-4 space-y-4">
-                  {/* Video in modal */}
-                  <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                    <video
-                      className="w-full h-full object-cover"
-                      src={selectedStep.videoUrl}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                    />
-                  </div>
-
-                  <p className="text-white/70">{selectedStep.description}</p>
-                  <div className="bg-white/5 p-4 rounded-lg">
-                    <h4 className="text-[#FF852A] mb-2">Deliverables</h4>
-                    <ul className="grid grid-cols-2 gap-2">
-                      {selectedStep.deliverables.map((item, i) => (
-                        <li
-                          key={i}
-                          className="text-white/70 text-sm flex items-center gap-2"
-                        >
-                          <div className="w-1 h-1 bg-[#FF852A] rounded-full" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="text-white/50 text-sm">
-                    Estimated Duration: {selectedStep.duration}
-                  </div>
-
-                  {/* Call to Action */}
-                  <div className="mt-6 text-center">
-                    <Button
-                      className="bg-[#FF852A] text-black hover:bg-[#FF852A]/90"
-                      onClick={() => (window.location.href = "/contact")}
-                    >
-                      Start Your Project
-                    </Button>
-                  </div>
-                </div>
-
-                <DialogFooter className="mt-6">
-                  <div className="flex justify-between w-full">
-                    <Button
-                      variant="outline"
-                      onClick={handlePrevious}
-                      className="border-[#FF852A]/30 hover:bg-[#FF852A]/10 text-[#FF852A] hover:text-[#FF852A]"
-                    >
-                      <ChevronLeft className="w-4 h-4 mr-2" />
-                      Previous Step
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={handleNext}
-                      className="border-[#FF852A]/30 hover:bg-[#FF852A]/10 text-[#FF852A] hover:text-[#FF852A]"
-                    >
-                      Next Step
-                      <ChevronRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </div>
-                </DialogFooter>
-              </>
-            )}
-          </DialogContent>
-        </Dialog>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 

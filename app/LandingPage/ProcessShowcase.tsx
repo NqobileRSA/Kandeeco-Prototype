@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-// import { ArrowRight } from "lucide-react";
-// import { FaLongArrowAltRight } from "react-icons/fa";
+import React, { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 interface ProcessStep {
   title: string;
@@ -38,112 +37,109 @@ const processSteps: ProcessStep[] = [
 ];
 
 const ProcessShowcase = () => {
-  const [selectedStep, setSelectedStep] = useState<ProcessStep>(
-    processSteps[0]
-  );
-  const [lockedStep, setLockedStep] = useState<ProcessStep>(processSteps[0]);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const processContainerRef = useRef<HTMLDivElement>(null);
-  const [isSticky, setIsSticky] = useState(false);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.src = processSteps[0].videoUrl;
-      videoRef.current.play();
-    }
-  }, []);
+  const [activeStep, setActiveStep] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!processContainerRef.current) return;
-      const rect = processContainerRef.current.getBoundingClientRect();
-      setIsSticky(rect.top <= 20);
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      setIsInView(true);
+
+      stepRefs.current.forEach((step, index) => {
+        if (!step) return;
+        const rect = step.getBoundingClientRect();
+        const elementMiddle = rect.top + window.scrollY + rect.height / 2;
+
+        if (Math.abs(scrollPosition - elementMiddle) < rect.height / 2) {
+          setActiveStep(index);
+          videoRefs.current[index]?.play();
+        } else {
+          videoRefs.current[index]?.pause();
+        }
+      });
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleMouseEnter = (step: ProcessStep) => {
-    if (!lockedStep) {
-      setSelectedStep(step);
-      playVideo(step.videoUrl);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!lockedStep) {
-      playVideo(selectedStep.videoUrl);
-    }
-  };
-
-  const handleClick = (step: ProcessStep) => {
-    setLockedStep(step);
-    setSelectedStep(step);
-    playVideo(step.videoUrl);
-  };
-
-  const playVideo = (videoUrl: string) => {
-    if (videoRef.current) {
-      videoRef.current.src = videoUrl;
-      videoRef.current.play();
-    }
-  };
-
   return (
-    <div className="relative bg-black" ref={processContainerRef}>
-      <div className="flex flex-col lg:flex-row gap-8 p-8">
-        {/* Process Steps List */}
-        <div className="lg:w-1/2 space-y-4">
-          {processSteps.map((step, index) => (
-            <Card
-              key={index}
-              className={`bg-[#343E48]/50 backdrop-blur hover:opacity-80 transition-all duration-300 cursor-pointer group 
-              ${lockedStep?.title === step.title ? "border border-[#FF852A] bg-[#FF852A]" : ""}`}
-              onMouseEnter={() => handleMouseEnter(step)}
-              onMouseLeave={handleMouseLeave}
-              onClick={() => handleClick(step)}
-            >
-              <div className="p-8 flex justify-between items-center">
-                <div className="space-y-2">
-                  <h3 className="text-[#FFFFFF] text-lg font-medium tracking-wide">
-                    {step.title}
-                  </h3>
-                  <p className="text-[#DCDCDC] text-sm leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-                {/* TODO improve icon or completely remove */}
-                {/* 
-                <FaLongArrowAltRight
-                  className={`text-[#343E48] transition-colors duration-300 w-8 h-8 rounded-full bg-neutral-800 group-hover:bg-neutral-700 flex items-center justify-center mr-2  ${
-                    lockedStep?.title === step.title
-                      ? "text-[#FFFFFF]"
-                      : "group-hover:text-[#FFFFFF]"
-                  }`}
-                  size={50}
-                /> */}
+    <div className="bg-gradient-to-b from-black to-neutral-900 min-h-screen py-24">
+      <div className="max-w-7xl mx-auto px-6">
+        {processSteps.map((step, index) => (
+          <motion.div
+            key={index}
+            ref={(el) => (stepRefs.current[index] = el)}
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+            className="mb-40 relative"
+          >
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+              {/* Timeline Line */}
+              <div className="absolute left-0 top-0 bottom-0 w-0.5">
+                <div className="absolute inset-0 bg-gradient-to-b from-neutral-800 to-neutral-700" />
+                <motion.div
+                  initial={{ height: "0%" }}
+                  animate={{ height: index <= activeStep ? "100%" : "0%" }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute top-0 w-full bg-gradient-to-r from-orange-500 to-orange-400"
+                />
               </div>
-            </Card>
-          ))}
-        </div>
 
-        {/* Sticky Video Section */}
-        <div
-          className={`lg:w-1/2 relative transition-all duration-500 ${isSticky ? "sticky top-20" : ""}`}
-        >
-          <div className="h-[100%] relative overflow-hidden rounded-lg">
-            <video
-              ref={videoRef}
-              className="rounded-lg object-cover w-full h-full transform transition-transform duration-700 hover:scale-105"
-              muted
-              loop
-              playsInline
-              autoPlay
-              preload="auto"
-            />
-          </div>
-        </div>
+              {/* Content Card */}
+              <motion.div
+                animate={{
+                  scale: index === activeStep ? 1 : 0.95,
+                  x: index === activeStep ? 0 : -16,
+                }}
+                className="w-full lg:w-1/2 ml-8"
+              >
+                <Card
+                  className={`backdrop-blur-lg transition-all duration-500 ${
+                    index === activeStep
+                      ? "bg-gradient-to-r from-orange-500/90 to-orange-400/90 shadow-2xl shadow-orange-500/20"
+                      : "bg-neutral-800/50"
+                  }`}
+                >
+                  <div className="p-8">
+                    <h3 className="text-white text-2xl font-medium mb-4 tracking-tight">
+                      {step.title}
+                    </h3>
+                    <p
+                      className={`leading-relaxed transition-colors duration-500 ${
+                        index === activeStep ? "text-white" : "text-neutral-300"
+                      }`}
+                    >
+                      {step.description}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+
+              {/* Video Container */}
+              <motion.div
+                animate={{
+                  scale: index === activeStep ? 1 : 0.9,
+                  opacity: index === activeStep ? 1 : 0.3,
+                }}
+                className="w-full lg:w-1/2 h-72 lg:h-96 rounded-xl overflow-hidden shadow-2xl"
+              >
+                <video
+                  ref={(el) => (videoRefs.current[index] = el)}
+                  className="w-full h-full object-cover rounded-xl transform transition-transform duration-700 hover:scale-105"
+                  src={step.videoUrl}
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );

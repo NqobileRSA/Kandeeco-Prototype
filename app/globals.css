@@ -9,5 +9,59 @@
 @layer base {
   :root {
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@font-face {
+  font-family: "Avenir Next Cyr";
+  src: url("/fonts/AvenirNextCyr-Bold.eot");
+  src:
+    local("/fonts/Avenir Next Cyr Bold"),
+    local("/fonts/AvenirNextCyr-Bold"),
+    url("/fonts/AvenirNextCyr-Bold.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/AvenirNextCyr-Bold.woff2") format("woff2"),
+    url("/fonts/AvenirNextCyr-Bold.woff") format("woff"),
+    url("/fonts/AvenirNextCyr-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+.masonry-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.masonry-grid {
+  display: flex;
+  width: 100%;
+  margin-left: -1.5rem; /* Adjust spacing */
+}
+
+.masonry-grid > div {
+  padding-left: 1.5rem; /* Adjust spacing */
+  background-clip: padding-box;
+}
+
+p {
+  font-family: "Avenir Next Cyr";
+  font-style: light;
 }

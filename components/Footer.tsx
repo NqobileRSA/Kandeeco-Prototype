@@ -1,49 +1,138 @@
-import React from 'react';
-import { Instagram, Facebook, Twitter, Youtube, ArrowUpRight, Mail, Phone, MapPin } from 'lucide-react';
+import React from "react";
+import {
+  Instagram,
+  Facebook,
+  Twitter,
+  Youtube,
+  ArrowUpRight,
+  Mail,
+  Phone,
+  MapPin,
+  LucideIcon,
+} from "lucide-react";
 
-const Footer = () => {
+// Type for social media icons mapping
+type SocialIcons = {
+  [key in "Instagram" | "Facebook" | "Twitter" | "Youtube"]: LucideIcon;
+};
+
+// Type for contact information items
+interface ContactItem {
+  Icon: LucideIcon;
+  text: string;
+  href?: string;
+}
+
+// Type for navigation items
+type NavigationItem = {
+  label: string;
+  href: string;
+};
+
+const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
+  const socialIcons: SocialIcons = {
+    Instagram,
+    Facebook,
+    Twitter,
+    Youtube,
+  };
+
+  const navigationItems: NavigationItem[] = [
+    "Home",
+    "About",
+    "Services",
+    "Portfolio",
+    "Contact",
+  ].map((item) => ({
+    label: item,
+    href: `/${item.toLowerCase()}`,
+  }));
+
+  const serviceItems: NavigationItem[] = [
+    "Video Production",
+    "Photography",
+    "Graphic Design",
+    "Virtual Tours",
+  ].map((service) => ({
+    label: service,
+    href: `/services/${service.toLowerCase().replace(" ", "-")}`,
+  }));
+
+  const contactItems: ContactItem[] = [
+    {
+      Icon: Mail,
+      text: "studio@kandee.co",
+      href: "mailto:studio@kandee.co",
+    },
+    {
+      Icon: Phone,
+      text: "+1 (234) 567-890",
+      href: "tel:+1234567890",
+    },
+    {
+      Icon: MapPin,
+      text: "123 Creative Street\nNew York, NY 10001",
+    },
+  ];
+
   return (
-    <footer className="relative bg-black">
-      {/* Decorative background */}
-      <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5 bg-cover bg-center" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
+    <footer className="relative bg-[#343E48]">
+      {/* Modern geometric pattern overlay */}
+      <div className="absolute inset-0 bg-[url('/assets/img1.jpg')] opacity-10 bg-cover bg-center mix-blend-overlay" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#343E48]/95 to-[#343E48]" />
 
       {/* Main Footer Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 pt-24 pb-12">
-        <div className="grid md:grid-cols-4 gap-12 pb-16 border-b border-white/10">
+        {/* Top section with animated border */}
+        <div className="grid md:grid-cols-4 gap-12 pb-16 border-b border-[#DCDCDC]/10 relative">
+          <div className="absolute -top-4 left-0 w-24 h-[1px] bg-gradient-to-r from-[#FF852A] to-transparent" />
+
           {/* Column 1 - Logo & About */}
           <div className="space-y-8">
-            <h2 className="text-2xl text-white font-light">STUDIO</h2>
-            <p className="text-white/60 leading-relaxed">
-              Creating exceptional visual content that tells your story and captures your vision.
+            <h2 className="text-3xl text-white font-light tracking-wider">
+              STU<span className="text-[#FF852A]">DIO</span>
+            </h2>
+            <p className="text-[#DCDCDC] leading-relaxed">
+              Crafting visual narratives that resonate. Where creativity meets
+              precision in every frame.
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-white/40 hover:text-[#D4AF37] transition-colors">
-                <Youtube className="w-5 h-5" />
-              </a>
+              {(Object.keys(socialIcons) as Array<keyof SocialIcons>).map(
+                (social) => {
+                  const Icon = socialIcons[social];
+                  return (
+                    <a
+                      key={social}
+                      href="#"
+                      className="group relative p-2 rounded-lg bg-white/5 hover:bg-[#FF852A]/10 transition-all duration-300"
+                    >
+                      <Icon className="w-5 h-5 text-white/60 group-hover:text-[#FF852A] transition-colors" />
+                    </a>
+                  );
+                }
+              )}
             </div>
           </div>
 
           {/* Column 2 - Navigation */}
           <div>
-            <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-8">Navigation</h3>
+            <h3 className="text-[#FF852A] text-sm uppercase tracking-[4px] mb-8 font-medium">
+              Explore
+            </h3>
             <ul className="space-y-4">
-              {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a href={`/${item.toLowerCase()}`} className="text-white/60 hover:text-[#D4AF37] transition-colors flex items-center group">
-                    {item}
-                    <ArrowUpRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 -translate-y-0 group-hover:-translate-y-1 transition-all" />
+              {navigationItems.map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className="group text-[#DCDCDC] hover:text-white transition-colors flex items-center"
+                  >
+                    <span className="relative">
+                      {label}
+                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#FF852A] group-hover:w-full transition-all duration-300" />
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </a>
                 </li>
               ))}
@@ -52,13 +141,21 @@ const Footer = () => {
 
           {/* Column 3 - Services */}
           <div>
-            <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-8">Services</h3>
+            <h3 className="text-[#FF852A] text-sm uppercase tracking-[4px] mb-8 font-medium">
+              Services
+            </h3>
             <ul className="space-y-4">
-              {['Video Production', 'Photography', 'Graphic Design', 'Virtual Tours'].map((service) => (
-                <li key={service}>
-                  <a href={`/services/${service.toLowerCase().replace(' ', '-')}`} className="text-white/60 hover:text-[#D4AF37] transition-colors flex items-center group">
-                    {service}
-                    <ArrowUpRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 -translate-y-0 group-hover:-translate-y-1 transition-all" />
+              {serviceItems.map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className="group text-[#DCDCDC] hover:text-white transition-colors flex items-center"
+                  >
+                    <span className="relative">
+                      {label}
+                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#FF852A] group-hover:w-full transition-all duration-300" />
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </a>
                 </li>
               ))}
@@ -67,38 +164,50 @@ const Footer = () => {
 
           {/* Column 4 - Contact */}
           <div>
-            <h3 className="text-[#D4AF37] text-sm uppercase tracking-[4px] mb-8">Contact</h3>
+            <h3 className="text-[#FF852A] text-sm uppercase tracking-[4px] mb-8 font-medium">
+              Get in Touch
+            </h3>
             <ul className="space-y-6">
-              <li>
-                <a href="Kandee.co@studio.com" className="text-white/60 hover:text-[#D4AF37] transition-colors flex items-center gap-4">
-                  <Mail className="w-5 h-5" />
-                  <span>Kandee.co@studio.com</span>
-                </a>
-              </li>
-              <li>
-                <a href="tel:+1234567890" className="text-white/60 hover:text-[#D4AF37] transition-colors flex items-center gap-4">
-                  <Phone className="w-5 h-5" />
-                  <span>+1 (234) 567-890</span>
-                </a>
-              </li>
-              <li>
-                <div className="text-white/60 flex items-center gap-4">
-                  <MapPin className="w-5 h-5" />
-                  <span>123 Creative Street<br />New York, NY 10001</span>
-                </div>
-              </li>
+              {contactItems.map((item, index) => (
+                <li key={index}>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="group flex items-center gap-4 text-[#DCDCDC] hover:text-white transition-colors"
+                    >
+                      <div className="p-2 rounded-lg bg-white/5 group-hover:bg-[#FF852A]/10 transition-all">
+                        <item.Icon className="w-5 h-5 group-hover:text-[#FF852A] transition-colors" />
+                      </div>
+                      <span>{item.text}</span>
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-4 text-[#DCDCDC]">
+                      <div className="p-2 rounded-lg bg-white/5">
+                        <item.Icon className="w-5 h-5" />
+                      </div>
+                      <span className="whitespace-pre-line">{item.text}</span>
+                    </div>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">
-          <div>
-            © {currentYear} Studio. All rights reserved.
-          </div>
+        {/* Bottom Bar with gradient line */}
+        <div className="relative mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#DCDCDC]/60">
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF852A]/20 to-transparent" />
+          <div>© {currentYear} Studio. All rights reserved.</div>
           <div className="flex gap-8">
-            <a href="/privacy" className="hover:text-[#D4AF37] transition-colors">Privacy Policy</a>
-            <a href="/terms" className="hover:text-[#D4AF37] transition-colors">Terms of Service</a>
+            {["Privacy Policy", "Terms of Service"].map((item) => (
+              <a
+                key={item}
+                href={`/${item.toLowerCase().replace(" ", "-")}`}
+                className="hover:text-[#FF852A] transition-colors"
+              >
+                {item}
+              </a>
+            ))}
           </div>
         </div>
       </div>
