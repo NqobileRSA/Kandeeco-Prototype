@@ -10,7 +10,7 @@ const GalleryCTA = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-32 h-[500px] flex items-center justify-center"
+      className="relative overflow-hidden py-32 h-[100vh] flex items-center justify-center"
     >
       {/* Fixed Background with Container Clipping */}
       <div className="absolute inset-0 w-full h-full overflow-hidden z-0">

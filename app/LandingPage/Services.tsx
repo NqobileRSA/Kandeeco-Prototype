@@ -40,10 +40,10 @@ const Services: React.FC = () => {
         {services.map((service, index) => (
           <div
             key={index}
-            className="bg-neutral-900 rounded-lg p-8 flex flex-col justify-between min-h-[280px] hover:bg-neutral-800 transition-all duration-300"
+            className="bg-neutral-900 rounded-lg p-8 flex flex-col justify-between min-h-[280px] hover:bg-neutral-800 transition-all duration-300 border-b border-red-100"
           >
             <div>
-              <h2 className="text-white text-xl font-medium mb-4">
+              <h2 className="text-white text-xl font-medium mb-4 ">
                 {service.title}
               </h2>
               <p className="text-gray-400 text-sm leading-relaxed">
