@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronDown, ArrowUpRight, Check } from "lucide-react";
-import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 // FAQ Component
 const FAQservices = () => {
@@ -23,7 +22,7 @@ const FAQservices = () => {
     },
   ];
 
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="max-w-4xl mx-auto py-16 px-6">
