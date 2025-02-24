@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Camera, Film, Play, ArrowUpRight, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -141,7 +142,7 @@ const DetailedServices = () => {
   const [selectedService, setSelectedService] = useState(services[0]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 py-24">
+    <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 pt-32 pb-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-16 text-center">
           <h1 className="text-5xl font-light text-white mb-4">Our Services</h1>

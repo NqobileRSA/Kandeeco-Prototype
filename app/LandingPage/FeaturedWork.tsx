@@ -3,14 +3,14 @@
 import React, { useState, useRef } from "react";
 import {
   ArrowUpRight,
-  // Film,
-  // Camera,
-  // X,
-  // ChevronLeft,
-  // ChevronRight,
+  Film,
+  Camera,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-// import { Dialog, DialogContent } from "@/components/ui/dialog";
-// import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 type Work = {
   category: "photography" | "videography";
@@ -120,7 +120,7 @@ const FeaturedWork: React.FC = () => {
     "photography"
   );
   const [hoveredWork, setHoveredWork] = useState<string | null>(null);
-  const [, setSelectedWork] = useState<Work | null>(null);
+  const [selectedWork, setSelectedWork] = useState<Work | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
   const modalVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -167,76 +167,91 @@ const FeaturedWork: React.FC = () => {
     }
   };
 
+  const handlePrevious = () => {
+    if (!selectedWork) return;
+    const currentWorks = works.filter(
+      (w) => w.category === selectedWork.category
+    );
+    const currentIndex = currentWorks.findIndex(
+      (w) => w.title === selectedWork.title
+    );
+    const newIndex =
+      currentIndex > 0 ? currentIndex - 1 : currentWorks.length - 1;
+    setSelectedWork(currentWorks[newIndex]);
+  };
+
+  const handleNext = () => {
+    if (!selectedWork) return;
+    const currentWorks = works.filter(
+      (w) => w.category === selectedWork.category
+    );
+    const currentIndex = currentWorks.findIndex(
+      (w) => w.title === selectedWork.title
+    );
+    const newIndex =
+      currentIndex < currentWorks.length - 1 ? currentIndex + 1 : 0;
+    setSelectedWork(currentWorks[newIndex]);
+  };
+
+  const handleCloseModal = () => {
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+    }
+    setSelectedWork(null);
+  };
+
   return (
-    <section className="relative bg-white min-h-screen">
+    <section className="relative bg-black min-h-screen">
+      <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-5 bg-cover bg-center" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
+
       <div className="relative z-10">
         {/* Header section with reduced padding */}
-        {/* <div className="px-8 md:px-16 py-8">
-          <div className="max-w-screen-xl mx-auto">
-            <div className="flex flex-col items-start">
-              <div className="text-[#FF852A] text-sm font-['Avenir_Next'] uppercase tracking-[8px] mb-4 flex items-center">
-                <span className="w-8 h-px bg-[#FF852A] mr-4" />
-                Featured Work
-              </div>
-              <h2
-                className="font-['Galano_Grotesque'] text-[48px] font-semibold uppercase tracking-[-1px] text-[#343E48] leading-[110%] mb-12"
-                style={{
-                  fontFeatureSettings: "normal",
-                  fontVariationSettings: "normal",
-                  textWrap: "balance",
-                }}
-              >
-                Masterpieces in Motion
-              </h2>
-
-              
-              <div className="flex gap-12">
-                {["photography", "videography"].map((category) => (
-                  <button
-                    key={category}
-                    onClick={() =>
-                      setActiveCategory(
-                        category as "photography" | "videography"
-                      )
-                    }
-                    className={`relative group font-['Avenir_Next'] text-base uppercase tracking-[2px] transition-all duration-300 
-                      ${
-                        activeCategory === category
-                          ? "text-[#FF852A]"
-                          : "text-[#343E48] hover:text-[#FF852A]"
-                      }`}
-                  >
-                    {category}
-                    <span
-                      className={`absolute -bottom-2 left-0 w-full h-[1px] transform origin-left transition-all duration-300
-                        ${
-                          activeCategory === category
-                            ? "bg-[#FF852A] scale-x-100"
-                            : "bg-[#FF852A] scale-x-0 group-hover:scale-x-100"
-                        }`}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
+        {/* <div className="text-center py-16">
+          <div className="text-[#D4AF37] text-sm uppercase tracking-[8px] mb-6 flex items-center justify-center">
+            <span className="w-8 h-px bg-[#D4AF37] mr-4" />
+            Featured Work
+            <span className="w-8 h-px bg-[#D4AF37] ml-4" />
           </div>
+          <h2 className="text-4xl text-white font-light tracking-wide mb-8">
+            Masterpieces in Motion
+          </h2>
         </div> */}
 
-        {/*  grid layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 p-3 max-w-8xl mx-auto">
+        {/* Category buttons */}
+        {/* <div className="flex justify-center gap-8 mb-8">
+          {["photography", "videography"].map((category) => (
+            <button
+              key={category}
+              onClick={() =>
+                setActiveCategory(category as "photography" | "videography")
+              }
+              className={`px-8 py-3 text-sm uppercase tracking-[4px] transition-all duration-300 ${
+                activeCategory === category
+                  ? "text-[#D4AF37] scale-105"
+                  : "text-white/50 hover:text-white/70"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div> */}
+
+        {/* New grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 px-1">
           {works
             .filter((work) => work.category === activeCategory)
             .map((work) => (
               <div
                 key={work.title}
-                className={`${getGridClasses(work.size)} group relative overflow-hidden rounded-sm shadow-lg transition-all duration-500 ease-out hover:shadow-xl ${
-                  hoveredWork === work.title ? "scale-[1.02] z-10" : ""
+                className={`${getGridClasses(work.size)} group relative transition-transform duration-500 ${
+                  hoveredWork === work.title ? "scale-[1.02]" : ""
                 }`}
                 onMouseEnter={() => handleMouseEnter(work.title)}
                 onMouseLeave={() => handleMouseLeave(work.title)}
                 onClick={() => handleWorkClick(work)}
               >
-                <div className="relative h-full">
+                <div className="relative h-full overflow-hidden">
                   {/* Media Content */}
                   {work.video ? (
                     <video
@@ -258,32 +273,27 @@ const FeaturedWork: React.FC = () => {
                     />
                   )}
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-black from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  {/* Content Overlay */}
+                  {/* Hover Overlay */}
                   <div
-                    className={`absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500 ease-out transform ${
-                      hoveredWork === work.title
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-4 opacity-0"
+                    className={`absolute inset-0 bg-black/60 flex flex-col justify-end p-8 transition-opacity duration-500 ${
+                      hoveredWork === work.title ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    <div className="text-[#FF852A] text-xs uppercase tracking-wider mb-2 font-medium">
+                    <div className="text-[#D4AF37] text-xs uppercase tracking-wider mb-2">
                       {work.subcategory}
                     </div>
-                    <h3 className="text-white text-xl font-medium mb-2 line-clamp-2">
+                    <h3 className="text-white text-2xl font-light mb-2">
                       {work.title}
                     </h3>
-                    <p className="text-white/80 text-sm mb-4 line-clamp-3">
+                    <p className="text-white/70 text-sm mb-4">
                       {work.description}
                     </p>
                     <a
                       href={work.link}
-                      className="inline-flex items-center gap-2 text-[#FF852A] hover:text-white transition-colors duration-300"
+                      className="inline-flex items-center gap-2 text-[#D4AF37] hover:text-white transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <span className="text-sm uppercase tracking-wider font-medium">
+                      <span className="text-sm uppercase tracking-[2px]">
                         View Project
                       </span>
                       <ArrowUpRight className="w-4 h-4" />
@@ -293,6 +303,87 @@ const FeaturedWork: React.FC = () => {
               </div>
             ))}
         </div>
+
+        {/* Full Screen Modal */}
+        <Dialog open={!!selectedWork} onOpenChange={handleCloseModal}>
+          <DialogContent className="max-w-7xl bg-black/95 border-[#D4AF37]/30">
+            {selectedWork && (
+              <div className="relative">
+                {/* Close Button */}
+                <button
+                  onClick={handleCloseModal}
+                  className="absolute top-4 right-4 z-50 text-white/70 hover:text-white"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+
+                {/* Media Container */}
+                <div className="relative aspect-video w-full rounded-lg overflow-hidden mb-8">
+                  {selectedWork.video ? (
+                    <video
+                      ref={modalVideoRef}
+                      src={selectedWork.video}
+                      className="w-full h-full object-cover"
+                      controls
+                      autoPlay
+                      loop
+                    />
+                  ) : (
+                    <img
+                      src={selectedWork.image}
+                      alt={selectedWork.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    {selectedWork.category === "videography" ? (
+                      <Film className="w-6 h-6 text-[#D4AF37]" />
+                    ) : (
+                      <Camera className="w-6 h-6 text-[#D4AF37]" />
+                    )}
+                    <h2 className="text-2xl text-white font-light">
+                      {selectedWork.title}
+                    </h2>
+                  </div>
+                  <p className="text-white/70">{selectedWork.description}</p>
+                  <div className="flex items-center gap-4 text-sm text-white/50">
+                    <span>{selectedWork.subcategory}</span>
+                    {selectedWork.duration && (
+                      <>
+                        <span className="w-1 h-1 bg-white/50 rounded-full" />
+                        <span>{selectedWork.duration}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Navigation */}
+                <div className="flex justify-between mt-8">
+                  <Button
+                    variant="outline"
+                    onClick={handlePrevious}
+                    className="border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 text-[#D4AF37]"
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-2" />
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={handleNext}
+                    className="border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 text-[#D4AF37]"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );

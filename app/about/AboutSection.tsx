@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Camera, Film, Users } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import OurMission from "./OurMission";
 
 const AboutSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -40,38 +41,6 @@ const AboutSection = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
-
-  const ServiceItem = ({
-    icon: Icon,
-    text,
-  }: {
-    icon: React.ElementType;
-    text: string;
-  }) => (
-    <motion.li
-      className="flex items-center gap-4 text-gray-300 group"
-      whileHover={{ x: 10 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-    >
-      <div className="relative">
-        <motion.div
-          className="w-10 h-10 flex items-center justify-center"
-          whileHover={{ scale: 1.1 }}
-        >
-          <Icon className="w-5 h-5 text-[#FF852A] relative z-10" />
-        </motion.div>
-        <motion.div
-          className="absolute inset-0 bg-[#FF852A]/10 rounded-full"
-          initial={{ scale: 0 }}
-          whileHover={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        />
-      </div>
-      <span className="font-avenir group-hover:text-white transition-colors duration-300">
-        {text}
-      </span>
-    </motion.li>
-  );
 
   return (
     <section id="about-us" className="relative overflow-hidden bg-[#343e4830]">
@@ -176,8 +145,8 @@ const AboutSection = () => {
           </motion.div>
         </div>
       </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <OurMission />
+      {/* <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -307,7 +276,7 @@ const AboutSection = () => {
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

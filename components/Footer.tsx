@@ -78,10 +78,10 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative bg-[#343E48]">
+    <footer className="relative bg-neutral-900">
       {/* Modern geometric pattern overlay */}
-      <div className="absolute inset-0 bg-[url('/assets/img1.jpg')] opacity-10 bg-cover bg-center mix-blend-overlay" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#343E48]/95 to-[#343E48]" />
+      {/* <div className="absolute inset-0 bg-[url('/assets/img1.jpg')] opacity-10 bg-cover bg-center mix-blend-overlay" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#343E48]/95 to-[#343E48]" /> */}
 
       {/* Main Footer Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 pt-24 pb-12">
@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
           {/* Column 1 - Logo & About */}
           <div className="space-y-8">
             <h2 className="text-3xl text-white font-light tracking-wider">
-              STU<span className="text-[#FF852A]">DIO</span>
+              KANDEE<span className="text-[#FF852A]">CO</span>
             </h2>
             <p className="text-[#DCDCDC] leading-relaxed">
               Crafting visual narratives that resonate. Where creativity meets
