@@ -14,7 +14,7 @@ const HorizontalScroll = () => {
   const doubledImages = [...images, ...images];
 
   return (
-    <div className="overflow-hidden bg-white relative py-8">
+    <div className="overflow-hidden bg-black relative py-8">
       {/* Row 1 - Left to Right */}
       <div className="flex space-x-2 whitespace-nowrap animate-scroll-left">
         {doubledImages.map((src, index) => (
